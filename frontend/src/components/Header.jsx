@@ -4,13 +4,13 @@ import styles from "./styles/header.module.css";
 
 const Header = () => {
   return (
-    <section>
-      <header className={styles.mainHeader}>
-        <div className={styles.logoContainer}>
+    <section className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.logo}>
           <img src={images.Logo} alt="logo" className={styles.logo} />
         </div>
-        <nav className={styles.navbar}>
-          <ul>
+        <div className={styles.navbar}>
+          <ul className={styles.navbar_items}>
             <li>
               <a href="/">Acasa</a>
             </li>
@@ -21,10 +21,10 @@ const Header = () => {
               <a href="/">Despre noi</a>
             </li>
             <li>
-              <button>Conectare</button>
+              <button className={styles.login}>Conecteaza-te</button>
             </li>
           </ul>
-        </nav>
+        </div>
       </header>
     </section>
   );

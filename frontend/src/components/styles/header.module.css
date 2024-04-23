@@ -1,49 +1,69 @@
-.mainHeader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #333;
+.container {
+  background-color: red;
 }
 
-.logoContainer {
-  width: 25%;
-  max-width: 30px;
+.header {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.313rem;
+  padding-right: 0.313rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.75rem;
 }
 
 .logo {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+  position: absolute;
+  top: 0;
+  left: 3rem;
+  width: auto;
+  height: 4rem;
 }
 
 .navbar {
-  width: 75%;
-  display: flex;
-  justify-content: center;
+  border: 1px solid white;
+  border-radius: 20px;
 }
 
-.navbar ul {
-  list-style: none;
-  margin: 0;
+.navbar,
+.navbar_items {
+  display: flex;
+}
+
+.navbar_items {
+  list-style-type: none;
+  display: flex;
   padding: 0;
-  display: flex;
-  justify-content: center;
+  margin: 0;
 }
 
-.navbar ul li {
-  margin-left: 20px;
-}
-
-.navbar ul li:first-child {
-  margin-left: 0;
-}
-
-.navbar ul li a {
+.navbar_items li {
   color: white;
+  padding: 0.75rem 1.5rem;
+  margin: 3px 3px;
+}
+
+.navbar_items li:last-child {
+  border: 1px solid white;
+  border-radius: 17px;
+}
+
+.navbar_items li:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 17px;
+}
+
+a {
   text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.login {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: white;
 }
