@@ -21,6 +21,9 @@ const Header = () => {
               <a href="/">Despre noi</a>
             </li>
             <li>
+              <a href="/">Contact</a>
+            </li>
+            <li>
               <button className={styles.login}>Conecteaza-te</button>
             </li>
           </ul>

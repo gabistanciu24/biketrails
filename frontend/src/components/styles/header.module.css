@@ -1,5 +1,7 @@
 .container {
   background-color: red;
+  height: 100px;
+  margin-top: 1.5rem;
 }
 
 .header {
@@ -15,10 +17,10 @@
 
 .logo {
   position: absolute;
-  top: 0;
-  left: 3rem;
+  top: 3;
+  left: 5rem;
   width: auto;
-  height: 4rem;
+  height: 5rem;
 }
 
 .navbar {
@@ -40,7 +42,7 @@
 
 .navbar_items li {
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 1.5rem;
   margin: 3px 3px;
 }
 
