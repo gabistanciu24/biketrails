@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { images } from "../constants";
 import styles from "./styles/header.module.css";
+import { TiThMenu } from "react-icons/ti";
+import { IoClose } from "react-icons/io5";
 
 const Header = () => {
+  const [navIsVisible, setNavIsVisible] = useState(false);
+
+  const navVisibilityHandler = () => {
+    setNavIsVisible((curState) => {
+      return !curState;
+    });
+  };
   return (
     <section className={styles.container}>
       <header className={styles.header}>
         <div className={styles.logo}>
           <img src={images.Logo} alt="logo" className={styles.logo} />
         </div>
+        <div className={styles.burger}>
+          <TiThMenu className={styles.burger_icon} />
+        </div>
         <div className={styles.navbar}>
           <ul className={styles.navbar_items}>
             <li>
-              <a href="/">Acasa</a>
+              <a href="/">Acasă</a>
             </li>
             <li>
               <a href="/">Trasee</a>
@@ -24,7 +36,7 @@ const Header = () => {
               <a href="/">Contact</a>
             </li>
             <li>
-              <button className={styles.login}>Conecteaza-te</button>
+              <button className={styles.login}>Conectează-te</button>
             </li>
           </ul>
         </div>
