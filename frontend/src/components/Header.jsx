@@ -36,19 +36,29 @@ const Header = () => {
           style={{ top: navIsVisible ? "0" : "-70rem" }}
         >
           <ul className={styles.navbar_items}>
-            <li>
+            <li
+            // onClick={navVisibilityHandler}
+            >
               <a href="/">Acasă</a>
             </li>
-            <li>
+            <li
+            // onClick={navVisibilityHandler}
+            >
               <a href="/">Trasee</a>
             </li>
-            <li>
+            <li
+            // onClick={navVisibilityHandler}
+            >
               <a href="/">Despre noi</a>
             </li>
-            <li>
+            <li
+            // onClick={navVisibilityHandler}
+            >
               <a href="/">Contact</a>
             </li>
-            <li>
+            <li
+            // onClick={navVisibilityHandler}
+            >
               <button className={styles.login}>Conectează-te</button>
             </li>
           </ul>
