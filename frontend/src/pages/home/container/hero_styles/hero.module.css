@@ -17,12 +17,15 @@
   max-width: 60rem;
 }
 
+.logo {
+  display: none;
+}
+
 .subtitle,
 .description {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-size: 2rem;
-  color: white;
 }
 
 .subtitle {
@@ -34,7 +37,7 @@
   font-size: 4rem;
   font-weight: 600;
   margin-block: 1.25rem;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .description {
@@ -57,13 +60,13 @@
   margin: 0.5rem 0.5rem;
   text-transform: uppercase;
   padding: 1rem 3rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .button:hover {
   background: #1f4034;
   color: #fca26e;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 @media screen and (max-width: 768px) {
@@ -71,7 +74,18 @@
     padding-inline: 0.75rem;
     text-align: center;
   }
-  .subtitle,
+
+  .logo {
+    display: block;
+    height: 16rem;
+    width: auto;
+    margin: 1rem auto;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
   .description {
     font-size: 1.75rem;
   }
@@ -80,6 +94,7 @@
   }
   .button {
     margin: 0 auto;
+    padding: 1rem 4rem;
   }
 }
 

@@ -1,5 +1,5 @@
 .container {
-  position: fixed;
+  position: absolute;
   display: flex;
   left: 0;
   right: 0;
@@ -28,7 +28,7 @@
 }
 
 .navbar {
-  border: 1px solid white;
+  border: 1px solid #fca26e;
   border-radius: 30px;
   font-weight: 500;
 }
@@ -40,21 +40,22 @@
 }
 
 .navbar_items li {
-  color: #fca26e;
   padding: 1rem 1.5rem;
   margin: 3px 3px;
+  border-radius: 27px;
+  background-color: transparent;
+  transition: background-color 0.5s ease;
 }
 
 .navbar_items li:last-child {
-  border: 1px solid white;
+  border: 1px solid #fca26e;
   border-radius: 27px;
   text-transform: uppercase;
 }
 
 .navbar_items li:hover {
-  background-color: rgba(252, 162, 110, 0.4);
-  border-radius: 27px;
-  transition: ease-in-out 0.3s;
+  background-color: rgba(31, 64, 52, 0.4);
+  transition: background-color 0.5s ease;
 }
 
 a {
@@ -102,18 +103,15 @@ a {
     transition: 0.4s ease-in;
   }
 
+  a {
+    color: #fca26e;
+  }
+
   .navbar_items {
     flex-direction: column;
     font-size: 1.5rem;
     width: 100vw;
     align-items: center;
-  }
-
-  .navbar_items li:hover {
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    transition: 0.1s ease-in-out;
   }
 
   .navbar_items li:last-child {
@@ -123,11 +121,12 @@ a {
   .login {
     font-size: 1.3rem;
     text-transform: uppercase;
+    color: #fca26e;
   }
 
   .burger_icon {
     font-size: 1.5rem;
-    color: white;
+    color: #fca26e;
     position: fixed;
     top: 1.5rem;
     right: 2rem;
