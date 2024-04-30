@@ -1,5 +1,5 @@
 .hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.38)),
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
     center / cover url(../../../../assets/hero.webp);
   min-height: calc(100vh+5rem);
   height: 100vh;
@@ -34,11 +34,13 @@
   font-size: 4rem;
   font-weight: 600;
   margin-block: 1.25rem;
-  color: #14281f;
+  color: white;
 }
 
 .description {
   margin-bottom: 2.25rem;
+  color: #fca26e;
+  font-weight: 300;
 }
 
 .buttons {
@@ -62,4 +64,27 @@
   background: #1f4034;
   color: #fca26e;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding-inline: 0.75rem;
+    text-align: center;
+  }
+  .subtitle,
+  .description {
+    font-size: 1.75rem;
+  }
+  .title {
+    font-size: 2.7rem;
+  }
+  .button {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    padding-inline: 4rem;
+  }
 }
