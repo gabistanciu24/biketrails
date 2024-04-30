@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 0;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.trail_card {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .trail_card {
+    width: calc(50% - 1.25rem);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .trail_card {
+    width: calc(33.33% - 1.313rem);
+  }
+}

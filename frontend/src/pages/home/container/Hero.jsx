@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./hero_styles/hero.module.css";
+import styles from "./styles/hero.module.css";
 import { images } from "../../../constants";
 
 const Hero = () => {
