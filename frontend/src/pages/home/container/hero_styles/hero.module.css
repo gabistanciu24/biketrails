@@ -1,0 +1,65 @@
+.hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.38)),
+    center / cover url(../../../../assets/hero.webp);
+  min-height: calc(100vh+5rem);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 75rem;
+}
+
+.content {
+  max-width: 60rem;
+}
+
+.subtitle,
+.description {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: white;
+}
+
+.subtitle {
+  color: #fca26e;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 600;
+  margin-block: 1.25rem;
+  color: #14281f;
+}
+
+.description {
+  margin-bottom: 2.25rem;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 2rem;
+}
+
+.button {
+  background: #fca26e;
+  border-radius: 30px;
+  color: #1f4034;
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0.5rem 0.5rem;
+  text-transform: uppercase;
+  padding: 1rem 3rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button:hover {
+  background: #1f4034;
+  color: #fca26e;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

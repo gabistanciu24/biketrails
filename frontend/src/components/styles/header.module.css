@@ -1,12 +1,13 @@
 .container {
-  background-color: red;
-  position: relative;
+  position: fixed;
   display: flex;
-  justify-self: center;
-  align-items: center;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }
 
 .header {
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   padding-left: 0.313rem;
@@ -21,7 +22,7 @@
 .logo {
   position: absolute;
   top: -0.2rem;
-  left: 5rem;
+  left: -9.5rem;
   width: 4.5rem;
   height: auto;
 }
@@ -39,7 +40,7 @@
 }
 
 .navbar_items li {
-  color: white;
+  color: #fca26e;
   padding: 1rem 1.5rem;
   margin: 3px 3px;
 }
@@ -47,10 +48,11 @@
 .navbar_items li:last-child {
   border: 1px solid white;
   border-radius: 27px;
+  text-transform: uppercase;
 }
 
 .navbar_items li:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(252, 162, 110, 0.4);
   border-radius: 27px;
   transition: ease-in-out 0.3s;
 }
@@ -66,10 +68,12 @@ a {
   border: none;
   outline: none;
   box-shadow: none;
+  text-transform: uppercase;
   color: white;
   font-weight: 500;
   font-family: "Roboto", sans-serif;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 
 .burger_icon {
@@ -78,7 +82,6 @@ a {
 
 @media screen and (max-width: 768px) {
   .container {
-    background-color: green;
     z-index: 0;
   }
   .header {
