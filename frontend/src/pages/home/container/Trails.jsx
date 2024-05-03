@@ -1,10 +1,11 @@
 import React from "react";
 import TrailCard from "./TrailCard";
-import styles from "./styles/trailcard.module.css";
+import styles from "./styles/trails.module.css";
 
 const Trails = () => {
   return (
-    <section className="container">
+    <section className={styles.container}>
+      <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
     </section>

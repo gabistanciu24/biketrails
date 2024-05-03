@@ -3,9 +3,9 @@ import { images } from "../../../constants";
 import { BsBicycle } from "react-icons/bs";
 import styles from "./styles/trailcard.module.css";
 
-const TrailCard = () => {
+const TrailCard = ({ className }) => {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <img src={images.post} alt="post_picture" className={styles.postImage} />
       <div className={styles.card_wrapper}>
         <h2 className={styles.title}>Future of Work</h2>

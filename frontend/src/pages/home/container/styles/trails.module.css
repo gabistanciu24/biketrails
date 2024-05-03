@@ -17,12 +17,12 @@
 
 @media screen and (min-width: 768px) {
   .trail_card {
-    width: calc(50% - 1.25rem);
+    width: calc(50% - 4rem);
   }
 }
 
 @media screen and (min-width: 1024px) {
   .trail_card {
-    width: calc(33.33% - 1.313rem);
+    width: calc(33.33% - 4rem);
   }
 }
