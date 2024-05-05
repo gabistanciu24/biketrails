@@ -8,6 +8,7 @@ const Trails = () => {
       <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
+      <TrailCard className={styles.trail_card} />
     </section>
   );
 };

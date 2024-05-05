@@ -8,15 +8,15 @@ const TrailCard = ({ className }) => {
     <div className={`${styles.container} ${className}`}>
       <img src={images.post} alt="post_picture" className={styles.postImage} />
       <div className={styles.card_wrapper}>
-        <h2 className={styles.title}>Future of Work</h2>
+        <h2 className={styles.title}>Bâlea Cascadă</h2>
         <p className={styles.caption}>
-          Majority of people will work in jobs that don't exist today.
+          Am urcat pe asfalt, până la o stână de pe partea dreaptă a drumului.
         </p>
         <div className={styles.user_info}>
           <div className={styles.user_details}>
             <img src={images.postProfile} alt="profile_picture" />
             <div className={styles.user_name}>
-              <h4>Viola Manisa</h4>
+              <h4>Vasile Pop</h4>
               <div className={styles.user_verification}>
                 <span className={styles.icon_span}>
                   <BsBicycle className={styles.icon} />
