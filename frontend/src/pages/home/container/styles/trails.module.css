@@ -14,10 +14,45 @@
 .trail_card {
   width: 100%;
   transition: 0.5s ease-in-out;
+  cursor: pointer;
 }
 
 .trail_card:hover {
   transform: translateY(-0.5rem);
+}
+
+.button {
+  margin: 0 auto;
+  cursor: pointer;
+  padding: 1rem 3rem;
+  background-color: transparent;
+  border: 1px solid #fca26e;
+  border-radius: 30px;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: 0.5s ease;
+  position: relative;
+}
+
+.button:hover {
+  background-color: #fca16e;
+  color: #1f4034;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.arrow {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-left: 0.2rem;
+  transition: margin-left 0.5s ease;
+}
+
+.button:hover .arrow {
+  margin-left: 0.8rem;
 }
 
 @media screen and (min-width: 768px) {
