@@ -1,0 +1,126 @@
+.wave {
+  width: 100%;
+  height: auto;
+  transform: translateY(4px);
+}
+
+.cta_section {
+  position: relative;
+  background-color: #1f4034;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 71.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2.5rem;
+  padding-bottom: 5rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.cta_title {
+  grid-column: span 12;
+}
+
+.cta_title h2 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.mailbox {
+  width: 100%;
+  max-width: 30.875rem;
+  margin-top: 3rem;
+  margin-top: 0.75rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.email {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 30px;
+  width: 100%;
+}
+
+.email::placeholder {
+  color: green;
+}
+
+.email_button {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-radius: 30px;
+  width: 100%;
+  background-color: green;
+  color: white;
+  font-weight: 700;
+}
+
+.cta_title p {
+  color: lightgreen;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  margin-top: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding-bottom: 5rem;
+  }
+
+  .cta_title h2 {
+    font-size: 2.25rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .mailbox {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
+  }
+
+  .email_button {
+    width: fit-content;
+    white-space: no-wrap;
+  }
+
+  .cta_title p {
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    place-items: center;
+  }
+
+  .cta_title {
+    grid-column: span 6;
+  }
+
+  .cta_title h2 {
+    text-align: left;
+  }
+
+  .mailbox {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .cta_title p {
+    text-align: left;
+  }
+}
