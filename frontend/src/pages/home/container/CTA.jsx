@@ -8,7 +8,7 @@ const CTA = () => {
       <svg
         id="wave"
         className={styles.wave}
-        viewBox="0 0 1900 200"
+        viewBox="0 0 2100 200"
         version="1.1"
       >
         <defs>
@@ -42,6 +42,22 @@ const CTA = () => {
               elit. Corporis nobis fugit necessitatibus in adipisci vel nisi
               debitis laboriosam officiis?
             </p>
+          </div>
+          <div className={styles.image_container}>
+            <div className={styles.shapes_container}>
+              <div className={styles.shape_1} />
+              <div className={styles.shape_2} />
+              <div className={styles.image_wrapper}>
+                <img src={images.CTA} alt="Call To Action Img" />
+                <div>
+                  <h2>Piatra Mare</h2>
+                  <p>
+                    Am lăsat mașinile în Timișul de jos și am pornit la urcare
+                    pe marcaj bandă roșie,
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
