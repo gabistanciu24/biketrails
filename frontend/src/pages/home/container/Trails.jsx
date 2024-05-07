@@ -10,10 +10,12 @@ const Trails = () => {
       <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
       <TrailCard className={styles.trail_card} />
-      <button className={styles.button}>
-        <span>Mai multe trasee </span>
-        <FaArrowRight className={styles.arrow} />
-      </button>
+      <div className={styles.button_wrapper}>
+        <button className={styles.button}>
+          <span>Mai multe trasee </span>
+          <FaArrowRight className={styles.arrow} />
+        </button>
+      </div>
     </section>
   );
 };
