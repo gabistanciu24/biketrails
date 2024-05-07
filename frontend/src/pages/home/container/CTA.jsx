@@ -4,7 +4,7 @@ import { images } from "../../../constants";
 
 const CTA = () => {
   return (
-    <>
+    <span className={styles.wrapper}>
       <svg
         id="wave"
         className={styles.wave}
@@ -25,22 +25,18 @@ const CTA = () => {
       <section className={styles.cta_section}>
         <div className={styles.container}>
           <div className={styles.cta_title}>
-            <h2>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-              modi.
-            </h2>
+            <h2>Fii la curent cu aventurile noastre!</h2>
             <div className={styles.mailbox}>
               <input
                 type="email"
                 className={styles.email}
-                placeholder="Mailul tau"
+                placeholder="Mailul tău..."
               />
-              <button className={styles.email_button}>Lorem, ipsum.</button>
+              <button className={styles.email_button}>Abonare</button>
             </div>
             <p>
-              <span>Lorem ipsum dolor sit</span> amet consectetur adipisicing
-              elit. Corporis nobis fugit necessitatibus in adipisci vel nisi
-              debitis laboriosam officiis?
+              <span>Bucură-te de pedalat!</span> Lasa-ne sa te tinem la curent
+              cu cele mai frumoase trasee, tu doar fii pregatit.
             </p>
           </div>
           <div className={styles.image_container}>
@@ -49,11 +45,11 @@ const CTA = () => {
               <div className={styles.shape_2} />
               <div className={styles.image_wrapper}>
                 <img src={images.CTA} alt="Call To Action Img" />
-                <div>
+                <div className={styles.image_text}>
                   <h2>Piatra Mare</h2>
                   <p>
                     Am lăsat mașinile în Timișul de jos și am pornit la urcare
-                    pe marcaj bandă roșie,
+                    pe marcaj bandă roșie.
                   </p>
                 </div>
               </div>
@@ -61,7 +57,7 @@ const CTA = () => {
           </div>
         </div>
       </section>
-    </>
+    </span>
   );
 };
 
