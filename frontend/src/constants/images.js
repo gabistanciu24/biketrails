@@ -3,6 +3,8 @@ import HeroImage from "../assets/hero.webp";
 import post from "../assets/posts/post1.webp";
 import postProfile from "../assets/posts/postProfile.webp";
 import CTA from "../assets/CTA.webp";
+import FDZR from "../assets/FDZR.svg";
+import program from "../assets/program.webp";
 
 const images = {
   Logo,
@@ -10,6 +12,8 @@ const images = {
   post,
   postProfile,
   CTA,
+  FDZR,
+  program,
 };
 
 export default images;
