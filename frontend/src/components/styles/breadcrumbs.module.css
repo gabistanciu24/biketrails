@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.link_wrapper {
+  display: flex;
+  font-weight: 600;
+  letter-spacing: 0.125rem;
+  font-size: 0.8rem;
+}
+
+.link_wrapper a {
+  text-decoration: none;
+  color: #fca26e;
+}
+
+.link_wrapper span {
+  padding: 0 0.75rem;
+  color: black;
+}

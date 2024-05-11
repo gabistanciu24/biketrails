@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 78rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.25rem;
+  padding-top: 6rem;
+}
+
+.breadcrumbs_wrap {
+  flex: 1;
+}

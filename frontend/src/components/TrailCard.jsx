@@ -1,5 +1,5 @@
 import React from "react";
-import { images } from "../../../constants";
+import { images } from "../constants";
 import { BsBicycle } from "react-icons/bs";
 import styles from "./styles/trailcard.module.css";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import TrailCard from "./TrailCard";
+import TrailCard from "../../../components/TrailCard";
 import styles from "./styles/trails.module.css";
 import { FaArrowRight } from "react-icons/fa";
 

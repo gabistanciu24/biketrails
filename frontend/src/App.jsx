@@ -1,10 +1,15 @@
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/home/HomePage";
+import TrailDetailPage from "./pages/trailDetail/TrailDetailPage";
 
 function App() {
   return (
     <div className="App">
-      <HomePage />
+      <Routes>
+        <Route index path="/" element={<HomePage />} />
+        <Route index path="/trail/:id" element={<TrailDetailPage />} />
+      </Routes>
     </div>
   );
 }
