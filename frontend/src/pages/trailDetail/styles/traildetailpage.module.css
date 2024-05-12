@@ -11,3 +11,55 @@
 .breadcrumbs_wrap {
   flex: 1;
 }
+
+.post_image {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.category_link {
+  color: #ccdcdd;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+  font-size: 0.875rem;
+  display: inline-block;
+  margin-top: 0.4rem;
+}
+
+.post_title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  color: #fca26e;
+  letter-spacing: 0.2rem;
+}
+
+.post_description {
+  margin-top: 4rem;
+  color: #ccdcdd;
+}
+
+.post_description p {
+  line-height: 1.75rem;
+}
+
+.suggested_trails {
+  margin-top: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .category_link {
+    font-size: 1rem;
+  }
+
+  .post_title {
+    font-size: 1.625rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .suggested_trails {
+    margin-top: 0;
+    max-width: 20rem;
+  }
+}
