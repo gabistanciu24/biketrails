@@ -71,12 +71,12 @@ const TrailDetailPage = () => {
             </p>
           </div>
         </article>
-        {/* <SuggestedTrails
+        <SuggestedTrails
           header="Ultimele trasee"
           posts={postsData}
           tags={tagsData}
           className={styles.suggested_trails}
-        /> */}
+        />
       </section>
     </MainLayout>
   );
