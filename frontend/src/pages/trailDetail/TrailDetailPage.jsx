@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../components/MainLayout";
 import styles from "./styles/traildetailpage.module.css";
 import BreadCrumbs from "../../components/BreadCrumbs";
 import { images } from "../../constants";
 import { Link } from "react-router-dom";
 import SuggestedTrails from "./SuggestedTrails";
+import axios from "axios"; // Importă axios
+import trailFile from "../../assets/trails/Vale_Magherusului.gpx";
+import { trails } from "../../constants";
 
 const breadCrumbsData = [
   { name: "Acasă", link: "/" },
@@ -42,6 +45,89 @@ const postsData = [
 const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 
 const TrailDetailPage = () => {
+  const [map, setMap] = useState(null);
+  const [currentRoute, setCurrentRoute] = useState(null);
+
+  useEffect(() => {
+    // Initializează harta la încărcarea paginii
+    initializeMap();
+  }, []); // Rulat doar o dată la încărcarea componentei
+
+  const initializeMap = () => {
+    if (!map) {
+      const defaultLocation = { lat: 47.1387, lng: 24.5136 }; // Coordonatele pentru Bistrița, România
+      const mapInstance = new window.google.maps.Map(
+        document.getElementById("map"),
+        {
+          center: defaultLocation,
+          zoom: 13,
+          mapTypeId: "satellite", // Setează modul de hartă la satelit
+          streetViewControl: false, // Dezactivează controlul Street View
+          zoomControlOptions: {
+            style: window.google.maps.ZoomControlStyle.SMALL, // Face butoanele de zoom mai mici
+          },
+          mapTypeControlOptions: {
+            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU, // Face butoanele de tip de hartă mai mici
+            position: window.google.maps.ControlPosition.TOP_RIGHT, // Poziționează butoanele de tip de hartă în partea dreaptă sus
+          },
+          fullscreenControl: false, // Dezactivează controlul de fullscreen
+          labels: true, // Activează etichetele pe hartă
+        }
+      );
+      setMap(mapInstance);
+    }
+  };
+
+  useEffect(() => {
+    if (map && trails.ValeaMagherusului) {
+      axios
+        .get(trails.ValeaMagherusului) // Încarcă conținutul fișierului GPX folosind axios
+        .then((response) => {
+          drawGpxRoute(response.data);
+        })
+        .catch((error) => console.error("Eroare încărcare fișier GPX:", error));
+    }
+  }, [map]);
+
+  const drawGpxRoute = (gpxContent) => {
+    // Șterge traseul anterior dacă există
+    if (currentRoute) {
+      currentRoute.setMap(null);
+    }
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(gpxContent, "text/xml");
+    const tracks = xmlDoc.getElementsByTagName("trk");
+    const coordinates = [];
+
+    for (let i = 0; i < tracks.length; i++) {
+      const trackpoints = tracks[i].getElementsByTagName("trkpt");
+      for (let j = 0; j < trackpoints.length; j++) {
+        const lat = parseFloat(trackpoints[j].getAttribute("lat"));
+        const lng = parseFloat(trackpoints[j].getAttribute("lon"));
+        coordinates.push({ lat, lng });
+      }
+    }
+
+    // console.log("Coordonate traseu:", coordinates);
+
+    const route = new window.google.maps.Polyline({
+      path: coordinates,
+      geodesic: true,
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+
+    route.setMap(map);
+    setCurrentRoute(route);
+
+    // Zoom către traseul nou desenat
+    const bounds = new window.google.maps.LatLngBounds();
+    coordinates.forEach((coord) => bounds.extend(coord));
+    map.fitBounds(bounds);
+  };
+
   return (
     <MainLayout>
       <section className={styles.container}>
@@ -70,6 +156,7 @@ const TrailDetailPage = () => {
               rerum iure nam natus debitis ratione recusandae aliquam?
             </p>
           </div>
+          <div id="map" style={{ width: "100%", height: "400px" }}></div>
         </article>
         <SuggestedTrails
           header="Ultimele trasee"
