@@ -25,8 +25,8 @@ const SuggestedTrails = ({ className, header, posts = [], tags }) => {
       </div>
       <h2 className={styles.tags_title}>Tipuri</h2>
       <div className={styles.tags_wrapper}>
-        {tags.map((item) => (
-          <Link to="/" className={styles.tag}>
+        {tags.map((item, index) => (
+          <Link key={index} to="/" className={styles.tag}>
             {item}
           </Link>
         ))}

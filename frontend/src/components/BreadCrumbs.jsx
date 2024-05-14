@@ -6,7 +6,7 @@ const BreadCrumbs = ({ data }) => {
   return (
     <div className={styles.container}>
       {data.map((item, index) => (
-        <div className={styles.link_wrapper}>
+        <div key={index} className={styles.link_wrapper}>
           <Link to={item.link}>{item.name}</Link>
           {index !== data.length - 1 && <span>/</span>}
         </div>

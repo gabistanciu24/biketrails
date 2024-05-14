@@ -8,6 +8,7 @@ import SuggestedTrails from "./SuggestedTrails";
 import axios from "axios";
 import { trails } from "../../constants";
 import { IoMdDownload } from "react-icons/io";
+import CommentsContainer from "../../components/comments/CommentsContainer";
 
 const breadCrumbsData = [
   { name: "Acasă", link: "/" },
@@ -184,8 +185,9 @@ const TrailDetailPage = () => {
             </p>
           </div>
           <div className={styles.photos_container}>
-            {photoData.map((item) => (
+            {photoData.map((item, index) => (
               <img
+                key={index}
                 className={styles.post_image}
                 src={item.image}
                 alt="enduro"
@@ -197,6 +199,7 @@ const TrailDetailPage = () => {
           <button className={styles.download_button}>
             Descarcă traseul <IoMdDownload className={styles.button_icon} />
           </button>
+          <CommentsContainer />
         </article>
         <SuggestedTrails
           header="Ultimele trasee"
