@@ -5,14 +5,41 @@ import BreadCrumbs from "../../components/BreadCrumbs";
 import { images } from "../../constants";
 import { Link } from "react-router-dom";
 import SuggestedTrails from "./SuggestedTrails";
-import axios from "axios"; // Importă axios
-import trailFile from "../../assets/trails/Vale_Magherusului.gpx";
+import axios from "axios";
 import { trails } from "../../constants";
+import { IoMdDownload } from "react-icons/io";
 
 const breadCrumbsData = [
   { name: "Acasă", link: "/" },
   { name: "Trails", link: "/trail" },
   { name: "Trail title", link: "/trail/1" },
+];
+
+const photoData = [
+  {
+    _id: "1",
+    image: images.HeroImage,
+  },
+  {
+    _id: "2",
+    image: images.HeroImage,
+  },
+  {
+    _id: "3",
+    image: images.HeroImage,
+  },
+  {
+    _id: "4",
+    image: images.HeroImage,
+  },
+  {
+    _id: "5",
+    image: images.HeroImage,
+  },
+  {
+    _id: "6",
+    image: images.HeroImage,
+  },
 ];
 
 const postsData = [
@@ -156,7 +183,20 @@ const TrailDetailPage = () => {
               rerum iure nam natus debitis ratione recusandae aliquam?
             </p>
           </div>
-          <div id="map" style={{ width: "100%", height: "400px" }}></div>
+          <div className={styles.photos_container}>
+            {photoData.map((item) => (
+              <img
+                className={styles.post_image}
+                src={item.image}
+                alt="enduro"
+              />
+            ))}
+          </div>
+          <h2 className={styles.map_title}>Lorem ipsum:</h2>
+          <div id="map" className={styles.map}></div>
+          <button className={styles.download_button}>
+            Descarcă traseul <IoMdDownload className={styles.button_icon} />
+          </button>
         </article>
         <SuggestedTrails
           header="Ultimele trasee"
