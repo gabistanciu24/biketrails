@@ -14,7 +14,7 @@ const CommentForm = ({ btnLabel, formSubmitHandler }) => {
       <div className={styles.comment_form}>
         <textarea
           rows="5"
-          placeholder="Lasă un comentariu..."
+          placeholder="Adaugă un comentariu..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />

@@ -28,8 +28,8 @@
 
 .comment_form textarea::placeholder {
   outline: none;
-  color: white;
-  font-size: 1rem;
+  color: #fca26e;
+  font-size: 1.3rem;
   font-weight: 700;
 }
 

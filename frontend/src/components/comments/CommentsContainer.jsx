@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import { getCommentsData } from "../../data/comments";
+import { Comment } from "./Comment";
+import styles from "./styles/commentscontainer.module.css";
 
 const CommentsContainer = () => {
   const [comments, setComments] = useState([]);
+
+  const mainComments = comments.filter((comment) => comment.parent === null);
 
   console.log(comments);
 
@@ -21,10 +25,10 @@ const CommentsContainer = () => {
         _id: "b",
         name: "Paul M. Williams",
       },
-      desc: "keep it up bro <3",
+      desc: value,
       post: "1",
-      parent: null,
-      replyOnUser: null,
+      parent: parent,
+      replyOnUser: replyOnUser,
       createdAt: "2022-12-31T17:22:05.092+0000",
     };
     setComments((curState) => {
@@ -38,6 +42,11 @@ const CommentsContainer = () => {
         btnLabel="Trimite"
         formSubmitHandler={(value) => addCommentHandler(value)}
       />
+      <div className={styles.all_comments}>
+        {mainComments.map((comment) => (
+          <Comment comment={comment} />
+        ))}
+      </div>
     </div>
   );
 };
