@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./styles/commentform.module.css";
 
-const CommentForm = ({ btnLabel, formSubmitHandler }) => {
+const CommentForm = ({
+  btnLabel,
+  formSubmitHandler,
+  formCancelHandler = null,
+}) => {
   const [value, setValue] = useState("");
 
   const submitHandler = (e) => {
@@ -18,9 +22,19 @@ const CommentForm = ({ btnLabel, formSubmitHandler }) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button className={styles.comment_button} type="submit">
-          {btnLabel}
-        </button>
+        <div className={styles.comment_buttons_wrapper}>
+          <button type="submit" className={styles.comment_button}>
+            {btnLabel}
+          </button>
+          {formCancelHandler && (
+            <button
+              onClick={formCancelHandler}
+              className={styles.comment_button}
+            >
+              Renunță
+            </button>
+          )}
+        </div>
       </div>
     </form>
   );

@@ -4,11 +4,11 @@ import { getCommentsData } from "../../data/comments";
 import { Comment } from "./Comment";
 import styles from "./styles/commentscontainer.module.css";
 
-const CommentsContainer = () => {
+const CommentsContainer = ({ logginedUserId }) => {
   const [comments, setComments] = useState([]);
 
   const mainComments = comments.filter((comment) => comment.parent === null);
-
+  const [affectedComment, setAffectedComment] = useState(null);
   console.log(comments);
 
   useEffect(() => {
@@ -44,7 +44,14 @@ const CommentsContainer = () => {
       />
       <div className={styles.all_comments}>
         {mainComments.map((comment) => (
-          <Comment comment={comment} />
+          <Comment
+            key={comment._id}
+            comment={comment}
+            logginedUserId={logginedUserId}
+            affectedComment={affectedComment}
+            setAffectedComment={setAffectedComment}
+            addComment={addCommentHandler}
+          />
         ))}
       </div>
     </div>

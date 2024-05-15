@@ -199,7 +199,7 @@ const TrailDetailPage = () => {
           <button className={styles.download_button}>
             Descarcă traseul <IoMdDownload className={styles.button_icon} />
           </button>
-          <CommentsContainer />
+          <CommentsContainer logginedUserId="a" />
         </article>
         <SuggestedTrails
           header="Ultimele trasee"

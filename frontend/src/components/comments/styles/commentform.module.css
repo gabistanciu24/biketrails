@@ -33,6 +33,13 @@
   font-weight: 700;
 }
 
+comment_buttons_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 0.625rem;
+  padding-top: 0.5rem;
+}
+
 .comment_button {
   padding: 0.625rem 1.5rem;
   border-radius: 12px;
@@ -42,4 +49,6 @@
   font-weight: 800;
   margin-top: 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
 }

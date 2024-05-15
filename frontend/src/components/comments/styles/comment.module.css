@@ -43,7 +43,7 @@
 .reply_buttons {
   display: flex;
   align-items: center;
-  column-gap: 0.75rem;
+  column-gap: 0.2rem;
   color: #fca26e;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
