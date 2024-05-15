@@ -11,12 +11,17 @@ export const Comment = ({
   setAffectedComment,
   addComment,
   parentId = null,
+  updateComment,
 }) => {
   const isUserLoggedIn = Boolean(logginedUserId);
   const commentBelongsToUser = logginedUserId === comment.user._id;
   const isReplying =
     affectedComment &&
     affectedComment.type === "replying" &&
+    affectedComment._id === comment._id;
+  const isEditing =
+    affectedComment &&
+    affectedComment.type === "editing" &&
     affectedComment._id === comment._id;
   const repliedCommentId = parentId ? parentId : comment._id;
   const replyOnUserId = comment.user._id;
@@ -38,7 +43,15 @@ export const Comment = ({
             hour: "2-digit",
           })}
         </span>
-        <p>{comment.desc}</p>
+        {!isEditing && <p>{comment.desc}</p>}
+        {isEditing && (
+          <CommentForm
+            btnLabel="Modifică"
+            formSubmitHandler={(value) => updateComment(value, comment._id)}
+            formCancelHandler={() => setAffectedComment(null)}
+            initialText={comment.desc}
+          />
+        )}
         <div className={styles.reply_buttons}>
           {isUserLoggedIn && (
             <button
@@ -53,8 +66,12 @@ export const Comment = ({
           )}
           {commentBelongsToUser && (
             <>
-              {" "}
-              <button className={styles.reply}>
+              <button
+                className={styles.reply}
+                onClick={() =>
+                  setAffectedComment({ type: "editing", _id: comment._id })
+                }
+              >
                 <FiEdit2 className={styles.button} />
                 <span>Editează</span>
               </button>
