@@ -12,6 +12,7 @@ export const Comment = ({
   addComment,
   parentId = null,
   updateComment,
+  deleteComment,
 }) => {
   const isUserLoggedIn = Boolean(logginedUserId);
   const commentBelongsToUser = logginedUserId === comment.user._id;
@@ -75,7 +76,10 @@ export const Comment = ({
                 <FiEdit2 className={styles.button} />
                 <span>Editează</span>
               </button>
-              <button className={styles.reply}>
+              <button
+                className={styles.reply}
+                onClick={() => deleteComment(comment._id)}
+              >
                 <FiTrash className={styles.button} />
                 <span>Șterge</span>
               </button>
