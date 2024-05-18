@@ -1,0 +1,35 @@
+.socials_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.socials_button {
+  color: #fca26e;
+  width: 3rem;
+  height: auto;
+  border-radius: 12px;
+  transition: 0.5s ease color;
+}
+
+.facebook:hover {
+  color: #3b5998;
+}
+
+.twitter:hover {
+  color: black;
+}
+
+.reddit:hover {
+  color: #ff4500;
+}
+
+.whatsapp:hover {
+  color: #25d366;
+}
+
+@media screen and (min-width: 1024px) {
+  .socials_wrapper {
+    margin-left: 1.5rem;
+  }
+}

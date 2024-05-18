@@ -9,6 +9,7 @@ import axios from "axios";
 import { trails } from "../../constants";
 import { IoMdDownload } from "react-icons/io";
 import CommentsContainer from "../../components/comments/CommentsContainer";
+import SocialShareButtons from "../../components/SocialShareButtons";
 
 const breadCrumbsData = [
   { name: "Acasă", link: "/" },
@@ -201,12 +202,22 @@ const TrailDetailPage = () => {
           </button>
           <CommentsContainer logginedUserId="a" />
         </article>
-        <SuggestedTrails
-          header="Ultimele trasee"
-          posts={postsData}
-          tags={tagsData}
-          className={styles.suggested_trails}
-        />
+        <div>
+          <div className={styles.suggested_shares}>
+            <SuggestedTrails
+              header="Ultimele trasee"
+              posts={postsData}
+              tags={tagsData}
+            />
+            <h2 className={styles.shares}>Distribuie </h2>
+            <SocialShareButtons
+              url={encodeURI(
+                `https://www.linkedin.com/in/gabriel-stanciu-b66482268/`
+              )}
+              title={encodeURIComponent("Stanciu Gabriel LinkedIn")}
+            />
+          </div>
+        </div>
       </section>
     </MainLayout>
   );

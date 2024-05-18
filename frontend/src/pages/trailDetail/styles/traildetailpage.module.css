@@ -43,10 +43,18 @@
   line-height: 1.75rem;
 }
 
-.suggested_trails {
-  margin-top: 5rem;
+.suggested_shares {
+  margin-top: 3rem;
 }
 
+.shares {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  color: #1f4034;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
 .photos_container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -129,12 +137,17 @@
     justify-content: center;
   }
 
-  .suggested_trails {
+  .suggested_shares {
     margin-top: 3.1rem;
     max-width: 20rem;
   }
 
   .photos_container {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .shares {
+    text-align: left;
+    margin: 1.5rem;
   }
 }
