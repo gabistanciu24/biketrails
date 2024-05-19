@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 const { hash } = pkg;
 const { sign } = jwt;
+const { compare } = pkg;
 
 const UserSchema = new Schema(
   {
@@ -30,6 +31,14 @@ UserSchema.methods.generateJWT = async function () {
   return await sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
+};
+
+UserSchema.methods.comparePassword = async function (enteredPassword) {
+  try {
+    return await compare(enteredPassword, this.password);
+  } catch (error) {
+    throw new Error("Error comparing passwords");
+  }
 };
 
 const User = model("User", UserSchema);
