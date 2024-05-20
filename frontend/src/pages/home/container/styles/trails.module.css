@@ -63,6 +63,13 @@
   margin-left: 0.8rem;
 }
 
+.testing_div {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  column-gap: 1.25rem;
+}
+
 @media screen and (min-width: 768px) {
   .trail_card {
     width: calc(50% - 4rem);
