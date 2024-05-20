@@ -1,3 +1,5 @@
+import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import { fileRemover } from "../utils/fileRemover.js";
 import User from "../models/User.js";
 
 export const registerUser = async (req, res, next) => {
@@ -23,7 +25,6 @@ export const registerUser = async (req, res, next) => {
       avatar: user.avatar,
       name: user.name,
       email: user.email,
-      verified: user.verified,
       admin: user.admin,
       token: await user.generateJWT(),
     });
@@ -47,7 +48,6 @@ export const loginUser = async (req, res, next) => {
         avatar: user.avatar,
         name: user.name,
         email: user.email,
-        verified: user.verified,
         admin: user.admin,
         token: await user.generateJWT(),
       });
@@ -68,7 +68,6 @@ export const userProfile = async (req, res, next) => {
         avatar: user.avatar,
         name: user.name,
         email: user.email,
-        verified: user.verified,
         admin: user.admin,
       });
     } else {
@@ -76,6 +75,86 @@ export const userProfile = async (req, res, next) => {
       error.statusCode = 404;
       next(error);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    let user = await User.findById(req.user._id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password && req.body.password.length < 6) {
+      throw new Error("Password length must be at least 6 characters");
+    } else if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUserProfile = await user.save();
+
+    res.json({
+      _id: updatedUserProfile._id,
+      avatar: updatedUserProfile.avatar,
+      name: updatedUserProfile.name,
+      email: updatedUserProfile.email,
+      admin: updatedUserProfile.admin,
+      token: await updatedUserProfile.generateJWT(),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProfilePicture = async (req, res, next) => {
+  try {
+    const upload = uploadPicture.single("profilePicture");
+
+    upload(req, res, async function (err) {
+      if (err) {
+        const error = new Error(
+          "An unknown error occured when uploading " + err.message
+        );
+        next(error);
+      } else {
+        // everything went well
+        if (req.file) {
+          const updatedUser = await User.findByIdAndUpdate(
+            req.user._id,
+            {
+              avatar: req.file.filename,
+            },
+            { new: true }
+          );
+          res.json({
+            _id: updatedUser._id,
+            avatar: updatedUser.avatar,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            admin: updatedUser.admin,
+            token: await updatedUser.generateJWT(),
+          });
+        } else {
+          let filename;
+          let updatedUser = await User.findById(req.user._id);
+          filename = updatedUser.avatar;
+          updatedUser.avatar = "";
+          await updatedUser.save();
+          fileRemover(filename);
+          res.json({
+            _id: updatedUser._id,
+            avatar: updatedUser.avatar,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            admin: updatedUser.admin,
+            token: await updatedUser.generateJWT(),
+          });
+        }
+      }
+    });
   } catch (error) {
     next(error);
   }
