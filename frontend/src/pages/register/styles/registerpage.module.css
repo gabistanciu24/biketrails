@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  padding-top: 7rem;
+}
+
+.registerpage {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 24rem;
+}
