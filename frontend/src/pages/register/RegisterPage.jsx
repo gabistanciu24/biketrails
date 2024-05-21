@@ -3,6 +3,7 @@ import MainLayout from "../../components/MainLayout";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styles from "./styles/registerpage.module.css";
+import classNames from "classnames";
 
 const RegisterPage = () => {
   const {
@@ -30,7 +31,7 @@ const RegisterPage = () => {
         <div className={styles.registerpage}>
           <h1>Inregistrează-te</h1>
           <form onSubmit={handleSubmit(submitHandler)}>
-            <div>
+            <div className={styles.input_field}>
               <label htmlFor="name">Nume</label>
               <input
                 type="text"
@@ -47,10 +48,16 @@ const RegisterPage = () => {
                   },
                 })}
                 placeholder="Introdu numele..."
+                className={classNames(
+                  styles.placeholder,
+                  errors.name ? styles.border_error : styles.border_default
+                )}
               />
-              {errors.name?.message && <p>{errors.name?.message}</p>}
+              {errors.name?.message && (
+                <p className={styles.error_message}>{errors.name?.message}</p>
+              )}
             </div>
-            <div>
+            <div className={styles.input_field}>
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -67,10 +74,16 @@ const RegisterPage = () => {
                   },
                 })}
                 placeholder="Introdu emailul..."
+                className={classNames(
+                  styles.placeholder,
+                  errors.name ? styles.border_error : styles.border_default
+                )}
               />
-              {errors.email?.message && <p>{errors.email?.message}</p>}
+              {errors.email?.message && (
+                <p className={styles.error_message}>{errors.email?.message}</p>
+              )}
             </div>
-            <div>
+            <div className={styles.input_field}>
               <label htmlFor="password">Parolă</label>
               <input
                 type="password"
@@ -87,10 +100,18 @@ const RegisterPage = () => {
                   },
                 })}
                 placeholder="Parola ta..."
+                className={classNames(
+                  styles.placeholder,
+                  errors.name ? styles.border_error : styles.border_default
+                )}
               />
-              {errors.password?.message && <p>{errors.password?.message}</p>}
+              {errors.password?.message && (
+                <p className={styles.error_message}>
+                  {errors.password?.message}
+                </p>
+              )}
             </div>
-            <div>
+            <div className={styles.input_field}>
               <label htmlFor="confirmPassword">Confirmare parolă</label>
               <input
                 type="password"
@@ -107,18 +128,31 @@ const RegisterPage = () => {
                   },
                 })}
                 placeholder="Confirmă parola..."
+                className={classNames(
+                  styles.placeholder,
+                  errors.name ? styles.border_error : styles.border_default
+                )}
               />
               {errors.confirmPassword?.message && (
-                <p>{errors.confirmPassword?.message}</p>
+                <p className={styles.error_message}>
+                  {errors.confirmPassword?.message}
+                </p>
               )}
             </div>
-            <Link to="/forget-password">Ai uitat parola?</Link>
-            <button type="submit" disabled={!isValid}>
+            <Link to="/forget-password" className={styles.forgot_password}>
+              Ai uitat parola?
+            </Link>
+            <button
+              type="submit"
+              disabled={!isValid}
+              className={styles.register_page_redirect}
+            >
               Înregistrare
             </button>
-            <p>
-              Deja membru? <Link to="/login">Conectează-te!</Link>
-            </p>
+            <div className={styles.login_page_redirect_wrapper}>
+              <p className={styles.login_page_redirect}>Deja membru?</p>
+              <Link to="/login">Conectează-te!</Link>
+            </div>
           </form>
         </div>
       </section>
