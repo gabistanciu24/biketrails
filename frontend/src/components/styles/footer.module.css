@@ -3,7 +3,9 @@
 }
 
 .footer_grid {
+  max-width: 78%;
   display: grid;
+  margin: 0 auto;
   gap: 1.5rem;
   grid-template-columns: 1fr 2fr 1fr;
   padding: 3rem 8rem;
