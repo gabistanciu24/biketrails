@@ -3,15 +3,24 @@ import { images } from "../constants";
 import styles from "./styles/header.module.css";
 import { TiThMenu } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/actions/user.js";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const userState = useSelector((state) => state.user);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
       return !curState;
     });
   };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
     <section className={styles.container}>
       <header className={styles.header}>
@@ -56,11 +65,25 @@ const Header = () => {
             >
               <a href="/">Contact</a>
             </li>
-            <li
-            // onClick={navVisibilityHandler}
-            >
-              <button className={styles.login}>Conectează-te</button>
-            </li>
+            {userState.userInfo ? (
+              <>
+                <li>
+                  <a href="/">Profil</a>
+                </li>
+                <li>
+                  <button className={styles.login}>Admin</button>
+                </li>
+                <li>
+                  <button className={styles.login} onClick={logoutHandler}>
+                    Deconectare
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button className={styles.login}>Conectează-te</button>
+              </li>
+            )}
           </ul>
         </div>
       </header>
