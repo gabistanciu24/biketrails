@@ -4,8 +4,24 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styles from "./styles/registerpage.module.css";
 import classNames from "classnames";
+import { useMutation } from "@tanstack/react-query";
+import { signup } from "../../services/users.js";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ name, email, password }) => {
+      return signup({ name, email, password });
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -21,7 +37,8 @@ const RegisterPage = () => {
     mode: "onchange",
   });
   const submitHandler = (data) => {
-    console.log(data);
+    const { name, email, password } = data;
+    mutate({ name, email, password });
   };
   const password = watch("password");
 
@@ -144,7 +161,7 @@ const RegisterPage = () => {
             </Link>
             <button
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isLoading}
               className={styles.register_page_redirect}
             >
               Înregistrare

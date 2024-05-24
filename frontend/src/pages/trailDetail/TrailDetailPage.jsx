@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import MainLayout from "../../components/MainLayout";
 import styles from "./styles/traildetailpage.module.css";
 import BreadCrumbs from "../../components/BreadCrumbs";
@@ -77,12 +77,7 @@ const TrailDetailPage = () => {
   const [map, setMap] = useState(null);
   const [currentRoute, setCurrentRoute] = useState(null);
 
-  useEffect(() => {
-    // Initializează harta la încărcarea paginii
-    initializeMap();
-  }, []); // Rulat doar o dată la încărcarea componentei
-
-  const initializeMap = () => {
+  const initializeMap = useCallback(() => {
     if (!map) {
       const defaultLocation = { lat: 47.1387, lng: 24.5136 }; // Coordonatele pentru Bistrița, România
       const mapInstance = new window.google.maps.Map(
@@ -105,7 +100,52 @@ const TrailDetailPage = () => {
       );
       setMap(mapInstance);
     }
-  };
+  }, [map]);
+
+  useEffect(() => {
+    // Initializează harta la încărcarea paginii
+    initializeMap();
+  }, [initializeMap]);
+
+  const drawGpxRoute = useCallback(
+    (gpxContent) => {
+      // Șterge traseul anterior dacă există
+      if (currentRoute) {
+        currentRoute.setMap(null);
+      }
+
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(gpxContent, "text/xml");
+      const tracks = xmlDoc.getElementsByTagName("trk");
+      const coordinates = [];
+
+      for (let i = 0; i < tracks.length; i++) {
+        const trackpoints = tracks[i].getElementsByTagName("trkpt");
+        for (let j = 0; j < trackpoints.length; j++) {
+          const lat = parseFloat(trackpoints[j].getAttribute("lat"));
+          const lng = parseFloat(trackpoints[j].getAttribute("lon"));
+          coordinates.push({ lat, lng });
+        }
+      }
+
+      const route = new window.google.maps.Polyline({
+        path: coordinates,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      });
+
+      route.setMap(map);
+      setCurrentRoute(route);
+
+      // Zoom către traseul nou desenat
+      const bounds = new window.google.maps.LatLngBounds();
+      coordinates.forEach((coord) => bounds.extend(coord));
+      map.fitBounds(bounds);
+    },
+    [currentRoute, map]
+  );
 
   useEffect(() => {
     if (map && trails.ValeaMagherusului) {
@@ -116,46 +156,7 @@ const TrailDetailPage = () => {
         })
         .catch((error) => console.error("Eroare încărcare fișier GPX:", error));
     }
-  }, [map]);
-
-  const drawGpxRoute = (gpxContent) => {
-    // Șterge traseul anterior dacă există
-    if (currentRoute) {
-      currentRoute.setMap(null);
-    }
-
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(gpxContent, "text/xml");
-    const tracks = xmlDoc.getElementsByTagName("trk");
-    const coordinates = [];
-
-    for (let i = 0; i < tracks.length; i++) {
-      const trackpoints = tracks[i].getElementsByTagName("trkpt");
-      for (let j = 0; j < trackpoints.length; j++) {
-        const lat = parseFloat(trackpoints[j].getAttribute("lat"));
-        const lng = parseFloat(trackpoints[j].getAttribute("lon"));
-        coordinates.push({ lat, lng });
-      }
-    }
-
-    // console.log("Coordonate traseu:", coordinates);
-
-    const route = new window.google.maps.Polyline({
-      path: coordinates,
-      geodesic: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 1.0,
-      strokeWeight: 2,
-    });
-
-    route.setMap(map);
-    setCurrentRoute(route);
-
-    // Zoom către traseul nou desenat
-    const bounds = new window.google.maps.LatLngBounds();
-    coordinates.forEach((coord) => bounds.extend(coord));
-    map.fitBounds(bounds);
-  };
+  }, [map, drawGpxRoute]);
 
   return (
     <MainLayout>
