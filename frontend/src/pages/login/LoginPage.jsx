@@ -2,22 +2,22 @@ import React, { useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import styles from "./styles/registerpage.module.css";
-import classNames from "classnames";
 import { useMutation } from "@tanstack/react-query";
-import { signup } from "../../services/index/users.js";
+import { login } from "../../services/index/users.js";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/reducers/userReducers.js";
+import styles from "./styles/loginpage.module.css";
+import classNames from "classnames";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({ name, email, password }) => {
-      return signup({ name, email, password });
+    mutationFn: ({ email, password }) => {
+      return login({ email, password });
     },
     onSuccess: (data) => {
       dispatch(userActions.setUserInfo(data));
@@ -39,54 +39,24 @@ const RegisterPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
   } = useForm({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
     mode: "onchange",
   });
   const submitHandler = (data) => {
-    const { name, email, password } = data;
-    mutate({ name, email, password });
+    const { email, password } = data;
+    mutate({ email, password });
   };
-  const password = watch("password");
 
   return (
     <MainLayout>
       <section className={styles.container}>
         <div className={styles.registerpage}>
-          <h1>Înregistrează-te</h1>
+          <h1>Conectează-te</h1>
           <form onSubmit={handleSubmit(submitHandler)}>
-            <div className={styles.input_field}>
-              <label htmlFor="name">Nume</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                {...register("name", {
-                  minLength: {
-                    value: 1,
-                    message: "Numele trebuie să aibă cel puțin un caracter",
-                  },
-                  required: {
-                    value: true,
-                    message: "Numele este obligatoriu",
-                  },
-                })}
-                placeholder="Introdu numele..."
-                className={classNames(
-                  styles.placeholder,
-                  errors.name ? styles.border_error : styles.border_default
-                )}
-              />
-              {errors.name?.message && (
-                <p className={styles.error_message}>{errors.name?.message}</p>
-              )}
-            </div>
             <div className={styles.input_field}>
               <label htmlFor="email">Email</label>
               <input
@@ -141,44 +111,19 @@ const RegisterPage = () => {
                 </p>
               )}
             </div>
-            <div className={styles.input_field}>
-              <label htmlFor="confirmPassword">Confirmare parolă</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                {...register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "Confirmarea parolei este obilatorie",
-                  },
-                  validate: (value) => {
-                    if (value !== password) {
-                      return "Parolele nu se potrivesc";
-                    }
-                  },
-                })}
-                placeholder="Confirmă parola..."
-                className={classNames(
-                  styles.placeholder,
-                  errors.name ? styles.border_error : styles.border_default
-                )}
-              />
-              {errors.confirmPassword?.message && (
-                <p className={styles.error_message}>
-                  {errors.confirmPassword?.message}
-                </p>
-              )}
-            </div>
+            <Link to="/forget-password" className={styles.forgot_password}>
+              Ai uitat parola?
+            </Link>
             <button
               type="submit"
               disabled={!isValid || isLoading}
               className={styles.register_page_redirect}
             >
-              Înregistrare
+              Conectare
             </button>
             <div className={styles.login_page_redirect_wrapper}>
-              <p className={styles.login_page_redirect}>Deja membru?</p>
-              <Link to="/login">Conectează-te!</Link>
+              <p className={styles.login_page_redirect}>Nu ești deja membru?</p>
+              <Link to="/login">Înregistrează-te</Link>
             </div>
           </form>
         </div>
@@ -187,4 +132,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
