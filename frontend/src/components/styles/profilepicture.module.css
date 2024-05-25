@@ -1,0 +1,69 @@
+.profile_pic_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image_wrapper {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100%;
+  outline-offset: 2px;
+  outline-width: 1px;
+  outline-color: #3490dc;
+  outline-style: solid;
+  overflow: hidden;
+}
+
+.picture_label {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 100%;
+  background-color: transparent;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icon_wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(239, 246, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 1.75rem;
+  height: auto;
+  color: #3490dc;
+}
+
+.label2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.button {
+  border: 1px solid #f56565;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  color: #f56565;
+}

@@ -5,8 +5,10 @@ import { TiThMenu } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/actions/user.js";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [navIsVisible, setNavIsVisible] = useState(false);
   const userState = useSelector((state) => state.user);
@@ -68,10 +70,15 @@ const Header = () => {
             {userState.userInfo ? (
               <>
                 <li>
-                  <a href="/">Profil</a>
+                  <a href="/">Cont</a>
                 </li>
                 <li>
-                  <button className={styles.login}>Admin</button>
+                  <button
+                    className={styles.login}
+                    onClick={() => navigate("/profile")}
+                  >
+                    Profil
+                  </button>
                 </li>
                 <li>
                   <button className={styles.login} onClick={logoutHandler}>
