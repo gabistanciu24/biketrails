@@ -4,15 +4,18 @@ import MainLayout from "../../components/MainLayout";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../../services/index/users";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getUserProfile, updateProfile } from "../../services/index/users";
 import styles from "../register/styles/registerpage.module.css";
 import classNames from "classnames";
+import { userActions } from "../../store/reducers/userReducers";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
+  const queryClient = useQueryClient();
 
   const {
     data: profileData,
@@ -31,6 +34,25 @@ const ProfilePage = () => {
     }
   }, [navigate, userState.userInfo]);
 
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ name, email, password }) => {
+      return updateProfile({
+        token: userState.userInfo.token,
+        userData: { name, email, password },
+      });
+    },
+    onSuccess: (data) => {
+      dispatch(userActions.setUserInfo(data));
+      localStorage.setItem("account", JSON.stringify(data));
+      queryClient.invalidateQueries(["profile"]);
+      toast.success("Profil updatat cu succes.");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -47,16 +69,21 @@ const ProfilePage = () => {
     },
     mode: "onchange",
   });
-  const submitHandler = (data) => {};
 
-  console.log(profileData);
+  const submitHandler = (data) => {
+    const { name, email, password } = data;
+    mutate({ name, email, password });
+  };
+
+  //console.log(profileData);
 
   return (
     <MainLayout>
       <section className={styles.container}>
         <div className={styles.registerpage}>
+          <p className={styles.username}>{profileData?.name}</p>
           <ProfilePicture avatar={profileData?.avatar} />
-          <form onSubmit={handleSubmit(submitHandler)} className={styles.form}>
+          <form onSubmit={handleSubmit(submitHandler)}>
             <div className={styles.input_field}>
               <label htmlFor="name">Nume</label>
               <input
@@ -110,22 +137,13 @@ const ProfilePage = () => {
               )}
             </div>
             <div className={styles.input_field}>
-              <label htmlFor="password">Parolă</label>
+              <label htmlFor="password">Noua parolă (opțional)</label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "Parola este obligatorie",
-                  },
-                  minLength: {
-                    value: 6,
-                    message: "Parola trebuie sa aibă cel puțin 6 caractere",
-                  },
-                })}
-                placeholder="Parola ta..."
+                {...register("password")}
+                placeholder="Noua ta parolă..."
                 className={classNames(
                   styles.placeholder,
                   errors.name ? styles.border_error : styles.border_default
@@ -143,7 +161,7 @@ const ProfilePage = () => {
               disabled={!isValid || profileIsLoading}
               className={styles.register_page_redirect}
             >
-              Conectare
+              Update
             </button>
           </form>
         </div>
