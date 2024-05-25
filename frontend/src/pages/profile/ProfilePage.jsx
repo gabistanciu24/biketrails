@@ -34,7 +34,7 @@ const ProfilePage = () => {
     }
   }, [navigate, userState.userInfo]);
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ name, email, password }) => {
       return updateProfile({
         token: userState.userInfo.token,
@@ -81,7 +81,7 @@ const ProfilePage = () => {
     <MainLayout>
       <section className={styles.container}>
         <div className={styles.registerpage}>
-          <p className={styles.username}>{profileData?.name}</p>
+          {/* <p className={styles.username}>{profileData?.name}</p> */}
           <ProfilePicture avatar={profileData?.avatar} />
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className={styles.input_field}>
@@ -158,7 +158,7 @@ const ProfilePage = () => {
 
             <button
               type="submit"
-              disabled={!isValid || profileIsLoading}
+              disabled={!isValid || profileIsLoading || updateProfileIsLoading}
               className={styles.register_page_redirect}
             >
               Update

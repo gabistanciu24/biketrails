@@ -21,7 +21,14 @@ export const uploadPicture = multer({
   },
   fileFilter: function (req, file, cb) {
     const ext = path.extname(file.originalname).toLowerCase();
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
+    if (
+      ext !== ".png" &&
+      ext !== ".jpg" &&
+      ext !== ".jpeg" &&
+      ext !== ".PNG" &&
+      ext !== ".JPG" &&
+      ext !== ".JPEG"
+    ) {
       return cb(new Error("Only .png, .jpg, and .jpeg format allowed!"));
     }
     cb(null, true);
