@@ -33,7 +33,7 @@ export const getUserProfile = async ({ token }) => {
   try {
     const config = {
       headers: {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
