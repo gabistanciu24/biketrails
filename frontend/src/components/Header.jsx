@@ -55,23 +55,20 @@ const Header = () => {
             <li
             // onClick={navVisibilityHandler}
             >
-              <a href="/">Trasee</a>
+              <a href="/trasee">Trasee</a>
             </li>
             <li
             // onClick={navVisibilityHandler}
             >
-              <a href="/">Despre noi</a>
+              <a href="/about">Despre noi</a>
             </li>
             <li
             // onClick={navVisibilityHandler}
             >
-              <a href="/">Contact</a>
+              <a href="/contact">Contact</a>
             </li>
             {userState.userInfo ? (
               <>
-                <li>
-                  <a href="/">Cont</a>
-                </li>
                 <li>
                   <button
                     className={styles.login}
