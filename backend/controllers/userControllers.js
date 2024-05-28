@@ -1,19 +1,19 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import { uploadFiles } from "../middleware/uploadFilesMiddleware.js";
 import { fileRemover } from "../utils/fileRemover.js";
 import User from "../models/User.js";
 
+// Function to register a new user
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    //check if user exists or not
+    // Check if user exists or not
     let user = await User.findOne({ email });
 
     if (user) {
-      //return res.status(400).json({ message: "User have already registered" });
       throw new Error("Utilizator deja înregistrat!");
     }
 
-    //creating a new user
+    // Create a new user
     user = await User.create({
       name,
       email,
@@ -29,11 +29,11 @@ export const registerUser = async (req, res, next) => {
       token: await user.generateJWT(),
     });
   } catch (error) {
-    //return res.status(500).json({ message: "Something went wrong!" });
     next(error);
   }
 };
 
+// Function to log in a user
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -59,6 +59,7 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+// Function to get user profile
 export const userProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
@@ -80,6 +81,7 @@ export const userProfile = async (req, res, next) => {
   }
 };
 
+// Function to update user profile
 export const updateProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
@@ -111,26 +113,75 @@ export const updateProfile = async (req, res, next) => {
   }
 };
 
+// Function to update user's profile picture
 export const updateProfilePicture = async (req, res, next) => {
   try {
-    const upload = uploadPicture.single("profilePicture");
-
-    upload(req, res, async function (err) {
+    uploadFiles(req, res, async function (err) {
       if (err) {
         const error = new Error(
-          "An unknown error occured when uploading " + err.message
+          "An unknown error occurred when uploading " + err.message
+        );
+        return next(error);
+      }
+
+      if (req.files && req.files["profilePicture"]) {
+        let filename;
+        let updatedUser = await User.findById(req.user._id);
+        filename = updatedUser.avatar;
+        if (filename) {
+          fileRemover(filename);
+        }
+        updatedUser.avatar = req.files["profilePicture"][0].filename;
+        await updatedUser.save();
+        return res.json({
+          _id: updatedUser._id,
+          avatar: updatedUser.avatar,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          admin: updatedUser.admin,
+          token: await updatedUser.generateJWT(),
+        });
+      } else {
+        let filename;
+        let updatedUser = await User.findById(req.user._id);
+        filename = updatedUser.avatar;
+        updatedUser.avatar = "";
+        await updatedUser.save();
+        fileRemover(filename);
+        return res.json({
+          _id: updatedUser._id,
+          avatar: updatedUser.avatar,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          admin: updatedUser.admin,
+          token: await updatedUser.generateJWT(),
+        });
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Function to update post's picture
+export const updatePostPicture = async (req, res, next) => {
+  try {
+    uploadFiles(req, res, async function (err) {
+      if (err) {
+        const error = new Error(
+          "An unknown error occurred when uploading " + err.message
         );
         next(error);
       } else {
         // everything went well
-        if (req.file) {
+        if (req.files && req.files["postPicture"]) {
           let filename;
           let updatedUser = await User.findById(req.user._id);
           filename = updatedUser.avatar;
           if (filename) {
             fileRemover(filename);
           }
-          updatedUser.avatar = req.file.filename;
+          updatedUser.avatar = req.files["postPicture"][0].filename;
           await updatedUser.save();
           res.json({
             _id: updatedUser._id,

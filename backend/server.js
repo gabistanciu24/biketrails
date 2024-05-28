@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -24,12 +25,13 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/trails", postRoutes);
 
 // Static assets
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
+// Error handling middleware
 app.use(invalidPathHandler);
-
 app.use(errorResponserHandler);
 
 const PORT = process.env.PORT || 5000;
