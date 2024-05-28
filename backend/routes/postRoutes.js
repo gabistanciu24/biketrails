@@ -1,10 +1,17 @@
 import express from "express";
-import { createPost, updatePost } from "../controllers/postControllers.js";
+import {
+  createPost,
+  updatePost,
+  deletePost,
+} from "../controllers/postControllers.js";
 import { authGuard, adminGuard } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/", authGuard, createPost);
-router.put("/:slug", authGuard, adminGuard, updatePost);
+router
+  .route("/:slug")
+  .put(authGuard, adminGuard, updatePost)
+  .delete(authGuard, adminGuard, deletePost);
 
 export default router;
