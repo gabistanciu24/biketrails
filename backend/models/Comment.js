@@ -12,5 +12,11 @@ const CommentSchema = new Schema(
   { timestamps: true }
 );
 
+CommentSchema.virtual("replies", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "parent",
+});
+
 const Comment = model("Post", CommentSchema);
 export default Comment;
