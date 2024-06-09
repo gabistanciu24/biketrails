@@ -1,22 +1,33 @@
 import React from "react";
-import { images } from "../constants";
+import { images, stables } from "../constants";
 import { BsBicycle } from "react-icons/bs";
 import styles from "./styles/trailcard.module.css";
 
-const TrailCard = ({ className }) => {
+const TrailCard = ({ post, className }) => {
   return (
     <div className={`${styles.container} ${className}`}>
-      <img src={images.post} alt="post_picture" className={styles.postImage} />
+      <img
+        src={
+          post.photo ? stables.UPLOAD_FOLDER_BASE_URL + post.photo : images.post
+        }
+        alt="post_picture"
+        className={styles.postImage}
+      />
       <div className={styles.card_wrapper}>
-        <h2 className={styles.title}>Bâlea Cascadă</h2>
-        <p className={styles.caption}>
-          Am urcat pe asfalt, până la o stână de pe partea dreaptă a drumului.
-        </p>
+        <h2 className={styles.title}>{post.title}</h2>
+        <p className={styles.caption}>{post.caption}</p>
         <div className={styles.user_info}>
           <div className={styles.user_details}>
-            <img src={images.postProfile} alt="profile_picture" />
+            <img
+              src={
+                post.user.avatar
+                  ? stables.UPLOAD_FOLDER_BASE_URL + post.user.avatar
+                  : images.postProfile
+              }
+              alt="profile_picture"
+            />
             <div className={styles.user_name}>
-              <h4>Vasile Pop</h4>
+              <h4>{post.user.name}</h4>
               <div className={styles.user_verification}>
                 <span className={styles.icon_span}>
                   <BsBicycle className={styles.icon} />
@@ -25,7 +36,13 @@ const TrailCard = ({ className }) => {
               </div>
             </div>
           </div>
-          <span className={styles.date}>24 Apr</span>
+          {/* romanian display date */}
+          <span className={styles.date}>
+            {new Date(post.createdAt).getDate()}{" "}
+            {new Date(post.createdAt).toLocaleString("ro-RO", {
+              month: "long",
+            })}
+          </span>
         </div>
       </div>
     </div>

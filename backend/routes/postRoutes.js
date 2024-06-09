@@ -4,12 +4,14 @@ import {
   updatePost,
   deletePost,
   getPost,
+  getAllPosts,
 } from "../controllers/postControllers.js";
 import { authGuard, adminGuard } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/", authGuard, createPost);
+router.route("/").post(authGuard, adminGuard, createPost).get(getAllPosts);
 router
   .route("/:slug")
   .put(authGuard, adminGuard, updatePost)
