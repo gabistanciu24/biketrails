@@ -12,7 +12,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route index path="/" element={<HomePage />} />
-        <Route path="/trail/:id" element={<TrailDetailPage />} />
+        <Route path="/trail/:slug" element={<TrailDetailPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />

@@ -2,20 +2,23 @@ import React, { useEffect, useState, useCallback } from "react";
 import MainLayout from "../../components/MainLayout";
 import styles from "./styles/traildetailpage.module.css";
 import BreadCrumbs from "../../components/BreadCrumbs";
-import { images } from "../../constants";
-import { Link } from "react-router-dom";
+import { images, stables } from "../../constants";
+import { Link, useParams } from "react-router-dom";
 import SuggestedTrails from "./SuggestedTrails";
 import axios from "axios";
 import { trails } from "../../constants";
 import { IoMdDownload } from "react-icons/io";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/SocialShareButtons";
-
-const breadCrumbsData = [
-  { name: "Acasă", link: "/" },
-  { name: "Trails", link: "/trail" },
-  { name: "Trail title", link: "/trail/1" },
-];
+import Bold from "@tiptap/extension-bold";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Italic from "@tiptap/extension-italic";
+import { useQuery } from "@tanstack/react-query";
+import { getSinglePost } from "../../services/index/posts";
+import { generateHTML } from "@tiptap/react";
+import parse from "html-react-parser";
 
 const photoData = [
   {
@@ -74,6 +77,42 @@ const postsData = [
 const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 
 const TrailDetailPage = () => {
+  const { slug } = useParams();
+  const [breadCrumbsData, setbreadCrumbsData] = useState([]);
+  const [body, setBody] = useState(null);
+
+  const { data, isLoading, isError } = useQuery({
+    queryFn: () => getSinglePost({ slug }),
+    queryKey: ["trail", slug],
+    onSuccess: (data) => {
+      setbreadCrumbsData([
+        { name: "Acasă", link: "/" },
+        { name: "Trail", link: "/trail" },
+        { name: data.title, link: `/trails/${slug}` },
+      ]);
+      setBody(
+        parse(
+          generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
+        )
+      );
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setbreadCrumbsData([
+        { name: "Acasă", link: "/" },
+        { name: "Trail", link: "/trail" },
+        { name: data.title, link: `/trails/${slug}` },
+      ]);
+      setBody(
+        parse(
+          generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
+        )
+      );
+    }
+  }, [data, slug]);
+
   const [map, setMap] = useState(null);
   const [currentRoute, setCurrentRoute] = useState(null);
 
@@ -165,26 +204,32 @@ const TrailDetailPage = () => {
           <BreadCrumbs data={breadCrumbsData} />
           <img
             className={styles.post_image}
-            src={images.post}
-            alt="post_image"
+            src={
+              data?.photo
+                ? stables.UPLOAD_FOLDER_BASE_URL + data?.photo
+                : images.post_image
+            }
+            alt={data?.title}
           />
           <Link
             to="/trail?category=selectedCategory"
             className={styles.category_link}
           >
-            DOWNHILL
+            <div className={styles.category_wrapper}>
+              {" "}
+              {data?.categories.map((category) => (
+                <Link
+                  to={`/trail?category=${category.name}`}
+                  className={styles.category_link}
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
           </Link>
-          <h1 className={styles.post_title}>Lorem ipsum dolor sit amet.</h1>
+          <h1 className={styles.post_title}>{data?.title}</h1>
           <div className={styles.post_description}>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              at rerum totam saepe omnis magni fuga nemo quos recusandae sequi
-              quasi, accusamus iusto autem dignissimos minus, nisi itaque fugit
-              obcaecati explicabo consequatur ipsum officia error. Quod
-              adipisci, ipsum doloremque fugit non nobis quis enim commodi
-              alias, minima accusantium repellendus nesciunt quia dignissimos
-              rerum iure nam natus debitis ratione recusandae aliquam?
-            </p>
+            <p>{body}</p>
           </div>
           <div className={styles.photos_container}>
             {photoData.map((item, index) => (
