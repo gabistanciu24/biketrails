@@ -20,6 +20,15 @@
 
 .post_image {
   width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.post_images {
+  width: 100%;
+  max-height: 10rem;
+  min-height: 10rem;
+  object-fit: cover;
   border-radius: 12px;
 }
 
@@ -150,6 +159,11 @@
 
   .photos_container {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .post_images {
+    max-height: 10rem;
+    min-height: 10rem;
   }
 
   .shares {

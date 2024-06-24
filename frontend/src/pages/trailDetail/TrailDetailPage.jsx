@@ -77,6 +77,7 @@ const postsData = [
 const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 
 const TrailDetailPage = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const { slug } = useParams();
   const [breadCrumbsData, setbreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
@@ -187,15 +188,31 @@ const TrailDetailPage = () => {
   );
 
   useEffect(() => {
-    if (map && trails.ValeaMagherusului) {
+    if (map && data?.gpxTrail && !isLoaded) {
+      const gpxFilePath = `/uploads/${data.gpxTrail}`; // Ensure the path is correct
+      console.log("GPX File Path:", gpxFilePath); // Log the GPX file path
+
       axios
-        .get(trails.ValeaMagherusului) // Încarcă conținutul fișierului GPX folosind axios
+        .get(gpxFilePath, { responseType: "blob" })
         .then((response) => {
-          drawGpxRoute(response.data);
+          const url = URL.createObjectURL(response.data);
+          fetch(url)
+            .then((res) => res.text())
+            .then((text) => {
+              drawGpxRoute(text);
+              setIsLoaded(true); // Set the state to true after loading the GPX file
+            })
+            .catch((error) => {
+              console.error("Eroare prelucrare fișier GPX:", error);
+              // Handle error, e.g., show an error message to the user
+            });
         })
-        .catch((error) => console.error("Eroare încărcare fișier GPX:", error));
+        .catch((error) => {
+          console.error("Eroare încărcare fișier GPX:", error);
+          // Handle error, e.g., show an error message to the user
+        });
     }
-  }, [map, drawGpxRoute]);
+  }, [map, data, drawGpxRoute, isLoaded]);
 
   return (
     <MainLayout>
@@ -232,12 +249,12 @@ const TrailDetailPage = () => {
             <p>{body}</p>
           </div>
           <div className={styles.photos_container}>
-            {photoData.map((item, index) => (
+            {data?.photoGallery.map((photo, index) => (
               <img
                 key={index}
-                className={styles.post_image}
-                src={item.image}
-                alt="enduro"
+                className={styles.post_images}
+                src={`${stables.UPLOAD_FOLDER_BASE_URL}${photo}`}
+                alt={`${index}`}
               />
             ))}
           </div>
