@@ -1,0 +1,103 @@
+.skeleton_trail_container {
+  border-radius: 12px;
+  margin: 2rem;
+  overflow: hidden;
+  box-shadow: rgba(7, 65, 210, 0.1) 0px 9px 30px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton_image_placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #cbd5e1;
+}
+
+.skeleton_details_wrapper {
+  padding: 1.25rem;
+}
+
+.skeleton_caption {
+  width: 14rem;
+  height: 0.5rem;
+  margin-top: 1rem;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+}
+
+.skeleton_caption_container {
+  width: 6rem;
+  height: 0.5rem;
+  margin-top: 1rem;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+}
+
+.skeleton_user_details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.skeleton_details_div {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.skeleton_profile_pic {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 12px;
+  background-color: #cbd5e1;
+}
+
+.user_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user_name {
+  width: 6rem;
+  height: 0.5rem;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+}
+
+.user_rider_icon {
+  width: 4rem;
+  height: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+}
+
+.user_date {
+  width: 2.5rem;
+  height: 0.5rem;
+  margin-top: 1rem;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+}
+
+@media screen and (min-width: 768px) {
+  .skeleton_details_div {
+    column-gap: 2rem;
+  }
+
+  .skeleton_profile_pic {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

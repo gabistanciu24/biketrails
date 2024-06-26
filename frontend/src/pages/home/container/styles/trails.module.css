@@ -12,6 +12,10 @@
   padding-bottom: 2.5rem;
 }
 
+.custom_style_trailcard {
+  width: 100%;
+}
+
 .trail_card {
   width: 100%;
   transition: 0.5s ease-in-out;
@@ -74,16 +78,25 @@
   .trail_card {
     width: calc(50% - 4rem);
   }
+  .custom_style_trailcard {
+    width: calc(50% - 4rem);
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .trail_card {
     width: calc(33.33% - 4rem);
   }
+  .custom_style_trailcard {
+    width: calc(33.33% - 4rem);
+  }
 }
 
 @media screen and (min-width: 1800px) {
   .trail_card {
+    width: calc(25% - 4rem);
+  }
+  .custom_style_trailcard {
     width: calc(25% - 4rem);
   }
 }

@@ -5,7 +5,7 @@ import { TiThMenu } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/actions/user.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -85,7 +85,9 @@ const Header = () => {
               </>
             ) : (
               <li>
-                <button className={styles.login}>Conectează-te</button>
+                <Link to="/login">
+                  <button className={styles.login}>Conectează-te</button>
+                </Link>
               </li>
             )}
           </ul>

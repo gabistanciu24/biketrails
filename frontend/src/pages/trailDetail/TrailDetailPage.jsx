@@ -6,7 +6,6 @@ import { images, stables } from "../../constants";
 import { Link, useParams } from "react-router-dom";
 import SuggestedTrails from "./SuggestedTrails";
 import axios from "axios";
-import { trails } from "../../constants";
 import { IoMdDownload } from "react-icons/io";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/SocialShareButtons";
@@ -19,33 +18,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getSinglePost } from "../../services/index/posts";
 import { generateHTML } from "@tiptap/react";
 import parse from "html-react-parser";
-
-const photoData = [
-  {
-    _id: "1",
-    image: images.HeroImage,
-  },
-  {
-    _id: "2",
-    image: images.HeroImage,
-  },
-  {
-    _id: "3",
-    image: images.HeroImage,
-  },
-  {
-    _id: "4",
-    image: images.HeroImage,
-  },
-  {
-    _id: "5",
-    image: images.HeroImage,
-  },
-  {
-    _id: "6",
-    image: images.HeroImage,
-  },
-];
+import TrailDetailSkeleton from "../components/TrailDetailSkeleton";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const postsData = [
   {
@@ -79,15 +53,17 @@ const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 const TrailDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { slug } = useParams();
-  const [breadCrumbsData, setbreadCrumbsData] = useState([]);
+  const [breadCrumbsData, setBreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
+  const [map, setMap] = useState(null);
+  const [currentRoute, setCurrentRoute] = useState(null);
 
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ["trail", slug],
     onSuccess: (data) => {
-      setbreadCrumbsData([
-        { name: "Acasă", link: "/" },
+      setBreadCrumbsData([
+        { name: "Home", link: "/" },
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
@@ -101,8 +77,8 @@ const TrailDetailPage = () => {
 
   useEffect(() => {
     if (data) {
-      setbreadCrumbsData([
-        { name: "Acasă", link: "/" },
+      setBreadCrumbsData([
+        { name: "Home", link: "/" },
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
@@ -114,42 +90,39 @@ const TrailDetailPage = () => {
     }
   }, [data, slug]);
 
-  const [map, setMap] = useState(null);
-  const [currentRoute, setCurrentRoute] = useState(null);
-
   const initializeMap = useCallback(() => {
-    if (!map) {
-      const defaultLocation = { lat: 47.1387, lng: 24.5136 }; // Coordonatele pentru Bistrița, România
+    if (!map && data) {
+      const defaultLocation = { lat: 47.1387, lng: 24.5136 }; // Coordinates for Bistrita, Romania
       const mapInstance = new window.google.maps.Map(
         document.getElementById("map"),
         {
           center: defaultLocation,
           zoom: 13,
-          mapTypeId: "satellite", // Setează modul de hartă la satelit
-          streetViewControl: false, // Dezactivează controlul Street View
+          mapTypeId: "satellite", // Set map type to satellite
+          streetViewControl: false, // Disable street view control
           zoomControlOptions: {
-            style: window.google.maps.ZoomControlStyle.SMALL, // Face butoanele de zoom mai mici
+            style: window.google.maps.ZoomControlStyle.SMALL, // Make zoom buttons smaller
           },
           mapTypeControlOptions: {
-            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU, // Face butoanele de tip de hartă mai mici
-            position: window.google.maps.ControlPosition.TOP_RIGHT, // Poziționează butoanele de tip de hartă în partea dreaptă sus
+            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU, // Make map type buttons smaller
+            position: window.google.maps.ControlPosition.TOP_RIGHT, // Position map type buttons top right
           },
-          fullscreenControl: false, // Dezactivează controlul de fullscreen
-          labels: true, // Activează etichetele pe hartă
+          fullscreenControl: false, // Disable fullscreen control
+          labels: true, // Enable labels on map
         }
       );
       setMap(mapInstance);
     }
-  }, [map]);
+  }, [map, data]);
 
   useEffect(() => {
-    // Initializează harta la încărcarea paginii
+    // Initialize map when component mounts
     initializeMap();
   }, [initializeMap]);
 
   const drawGpxRoute = useCallback(
     (gpxContent) => {
-      // Șterge traseul anterior dacă există
+      // Remove previous route if exists
       if (currentRoute) {
         currentRoute.setMap(null);
       }
@@ -179,7 +152,7 @@ const TrailDetailPage = () => {
       route.setMap(map);
       setCurrentRoute(route);
 
-      // Zoom către traseul nou desenat
+      // Zoom to the newly drawn route
       const bounds = new window.google.maps.LatLngBounds();
       coordinates.forEach((coord) => bounds.extend(coord));
       map.fitBounds(bounds);
@@ -189,8 +162,7 @@ const TrailDetailPage = () => {
 
   useEffect(() => {
     if (map && data?.gpxTrail && !isLoaded) {
-      const gpxFilePath = `/uploads/${data.gpxTrail}`; // Ensure the path is correct
-      console.log("GPX File Path:", gpxFilePath); // Log the GPX file path
+      const gpxFilePath = `/uploads/${data.gpxTrail}`;
 
       axios
         .get(gpxFilePath, { responseType: "blob" })
@@ -200,15 +172,14 @@ const TrailDetailPage = () => {
             .then((res) => res.text())
             .then((text) => {
               drawGpxRoute(text);
-              setIsLoaded(true); // Set the state to true after loading the GPX file
+              setIsLoaded(true);
             })
             .catch((error) => {
-              console.error("Eroare prelucrare fișier GPX:", error);
-              // Handle error, e.g., show an error message to the user
+              console.error("Error processing GPX file:", error);
             });
         })
         .catch((error) => {
-          console.error("Eroare încărcare fișier GPX:", error);
+          console.error("Error loading GPX file:", error);
           // Handle error, e.g., show an error message to the user
         });
     }
@@ -216,26 +187,27 @@ const TrailDetailPage = () => {
 
   return (
     <MainLayout>
-      <section className={styles.container}>
-        <article className={styles.breadcrumbs_wrap}>
-          <BreadCrumbs data={breadCrumbsData} />
-          <img
-            className={styles.post_image}
-            src={
-              data?.photo
-                ? stables.UPLOAD_FOLDER_BASE_URL + data?.photo
-                : images.post_image
-            }
-            alt={data?.title}
-          />
-          <Link
-            to="/trail?category=selectedCategory"
-            className={styles.category_link}
-          >
+      {isLoading ? (
+        <TrailDetailSkeleton />
+      ) : isError ? (
+        <ErrorMessage message="Failed to load trails." />
+      ) : (
+        <section className={styles.container}>
+          <article className={styles.breadcrumbs_wrap}>
+            <BreadCrumbs data={breadCrumbsData} />
+            <img
+              className={styles.post_image}
+              src={
+                data?.photo
+                  ? stables.UPLOAD_FOLDER_BASE_URL + data?.photo
+                  : images.post_image
+              }
+              alt={data?.title}
+            />
             <div className={styles.category_wrapper}>
-              {" "}
               {data?.categories.map((category) => (
                 <Link
+                  key={category._id}
                   to={`/trail?category=${category.name}`}
                   className={styles.category_link}
                 >
@@ -243,45 +215,45 @@ const TrailDetailPage = () => {
                 </Link>
               ))}
             </div>
-          </Link>
-          <h1 className={styles.post_title}>{data?.title}</h1>
-          <div className={styles.post_description}>
-            <p>{body}</p>
-          </div>
-          <div className={styles.photos_container}>
-            {data?.photoGallery.map((photo, index) => (
-              <img
-                key={index}
-                className={styles.post_images}
-                src={`${stables.UPLOAD_FOLDER_BASE_URL}${photo}`}
-                alt={`${index}`}
+            <h1 className={styles.post_title}>{data?.title}</h1>
+            <div className={styles.post_description}>
+              <p>{body}</p>
+            </div>
+            <div className={styles.photos_container}>
+              {data?.photoGallery.map((photo, index) => (
+                <img
+                  key={index}
+                  className={styles.post_images}
+                  src={`${stables.UPLOAD_FOLDER_BASE_URL}${photo}`}
+                  alt={`Poza - Traseu ${index}`}
+                />
+              ))}
+            </div>
+            <h2 className={styles.map_title}>Map:</h2>
+            <div id="map" className={styles.map}></div>
+            <button className={styles.download_button}>
+              Download Trail <IoMdDownload className={styles.button_icon} />
+            </button>
+            <CommentsContainer logginedUserId="a" />
+          </article>
+          <div>
+            <div className={styles.suggested_shares}>
+              <SuggestedTrails
+                header="Latest Trails"
+                posts={postsData}
+                tags={tagsData}
               />
-            ))}
+              <h2 className={styles.shares}>Share</h2>
+              <SocialShareButtons
+                url={encodeURI(
+                  `https://www.linkedin.com/in/gabriel-stanciu-b66482268/`
+                )}
+                title={encodeURIComponent("Stanciu Gabriel LinkedIn")}
+              />
+            </div>
           </div>
-          <h2 className={styles.map_title}>Lorem ipsum:</h2>
-          <div id="map" className={styles.map}></div>
-          <button className={styles.download_button}>
-            Descarcă traseul <IoMdDownload className={styles.button_icon} />
-          </button>
-          <CommentsContainer logginedUserId="a" />
-        </article>
-        <div>
-          <div className={styles.suggested_shares}>
-            <SuggestedTrails
-              header="Ultimele trasee"
-              posts={postsData}
-              tags={tagsData}
-            />
-            <h2 className={styles.shares}>Distribuie </h2>
-            <SocialShareButtons
-              url={encodeURI(
-                `https://www.linkedin.com/in/gabriel-stanciu-b66482268/`
-              )}
-              title={encodeURIComponent("Stanciu Gabriel LinkedIn")}
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </MainLayout>
   );
 };
