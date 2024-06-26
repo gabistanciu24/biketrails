@@ -1,5 +1,5 @@
 import React from "react";
-import { images } from "../../constants";
+import { images, stables } from "../../constants";
 import { FiMessageSquare, FiEdit2, FiTrash } from "react-icons/fi";
 import styles from "./styles/comment.module.css";
 import CommentForm from "./CommentForm";
@@ -31,7 +31,11 @@ export const Comment = ({
   return (
     <div className={styles.comment_wrapper}>
       <img
-        src={images.postProfile}
+        src={
+          comment?.user?.avatar
+            ? stables.UPLOAD_FOLDER_BASE_URL + comment.user.avatar
+            : images.postProfile
+        }
         alt="Profile"
         className={styles.comment_profile_pic}
       />

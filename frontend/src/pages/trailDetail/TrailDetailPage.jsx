@@ -20,6 +20,7 @@ import { generateHTML } from "@tiptap/react";
 import parse from "html-react-parser";
 import TrailDetailSkeleton from "../components/TrailDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useSelector } from "react-redux";
 
 const postsData = [
   {
@@ -53,6 +54,7 @@ const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 const TrailDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { slug } = useParams();
+  const userState = useSelector((state) => state.user);
   const [breadCrumbsData, setBreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
   const [map, setMap] = useState(null);
@@ -234,7 +236,10 @@ const TrailDetailPage = () => {
             <button className={styles.download_button}>
               Download Trail <IoMdDownload className={styles.button_icon} />
             </button>
-            <CommentsContainer logginedUserId="a" />
+            <CommentsContainer
+              comments={data?.comments}
+              logginedUserId={userState?.userInfo?._id}
+            />
           </article>
           <div>
             <div className={styles.suggested_shares}>
