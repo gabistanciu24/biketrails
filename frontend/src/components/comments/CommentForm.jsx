@@ -6,6 +6,7 @@ const CommentForm = ({
   formSubmitHandler,
   formCancelHandler = null,
   initialText = "",
+  loading = false,
 }) => {
   const [value, setValue] = useState(initialText);
 

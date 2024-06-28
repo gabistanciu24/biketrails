@@ -55,6 +55,11 @@ comment_buttons_wrapper {
   margin-left: 0.5rem;
 }
 
+.comment_button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 @media (min-width: 26.25rem) {
   comment_buttons_wrapper {
     flex-direction: row;

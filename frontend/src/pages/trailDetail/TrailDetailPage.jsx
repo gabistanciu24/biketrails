@@ -84,10 +84,8 @@ const TrailDetailPage = () => {
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
-      setBody(
-        parse(
-          generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
-        )
+      parse(
+        generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
       );
     }
   }, [data, slug]);
@@ -239,6 +237,7 @@ const TrailDetailPage = () => {
             <CommentsContainer
               comments={data?.comments}
               logginedUserId={userState?.userInfo?._id}
+              postSlug={slug}
             />
           </article>
           <div>
