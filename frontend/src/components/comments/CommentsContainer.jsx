@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import CommentForm from "./CommentForm";
 import { Comment } from "./Comment";
 import styles from "./styles/commentscontainer.module.css";
-import { useMutation } from "@tanstack/react-query";
-import { createNewComment } from "../../services/index/comments";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNewComment, updateComment } from "../../services/index/comments";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 const CommentsContainer = ({ logginedUserId, comments, postSlug }) => {
+  const queryClient = useQueryClient();
   const userState = useSelector((state) => state.user);
   const [affectedComment, setAffectedComment] = useState(null);
 
@@ -17,7 +18,24 @@ const CommentsContainer = ({ logginedUserId, comments, postSlug }) => {
         return createNewComment({ token, desc, slug, parent, replyOnUser });
       },
       onSuccess: () => {
-        toast.success("Comentariu adaugat, se asteapta permisiunea adminului.");
+        toast.success(
+          "Comentariu creat, urmeaza sa fie vizibil dupa confirmarea unui Administrator."
+        );
+        queryClient.invalidateQueries(["trail", postSlug]);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+      },
+    });
+
+  const { mutate: mutateUpdateComment, isLoading: isLoadingUpdateComment } =
+    useMutation({
+      mutationFn: ({ token, desc, commentId }) => {
+        return updateComment({ token, desc, commentId });
+      },
+      onSuccess: () => {
+        toast.success("Comentariu modificat cu succes!");
       },
       onError: (error) => {
         toast.error(error.message);
@@ -40,9 +58,15 @@ const CommentsContainer = ({ logginedUserId, comments, postSlug }) => {
     setAffectedComment(null);
   };
 
-  console.log(userState.userInfo.token);
+  //console.log(userState.userInfo.token);
 
-  const updateCommentHandler = (value, commentId) => {};
+  const updateCommentHandler = (value, commentId) => {
+    mutateUpdateComment({
+      token: userState.userInfo.token,
+      desc: value,
+      commentId,
+    });
+  };
 
   const deleteCommentHandler = (commentId) => {};
 

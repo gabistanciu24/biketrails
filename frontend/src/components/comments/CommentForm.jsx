@@ -15,6 +15,7 @@ const CommentForm = ({
     formSubmitHandler(value);
     setValue("");
   };
+
   return (
     <form onSubmit={submitHandler}>
       <div className={styles.comment_form}>

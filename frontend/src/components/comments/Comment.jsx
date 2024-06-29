@@ -28,6 +28,15 @@ export const Comment = ({
   const repliedCommentId = parentId ? parentId : comment._id;
   const replyOnUserId = comment.user._id;
 
+  const handleFormSubmit = (value, isEdit = false) => {
+    if (isEdit) {
+      updateComment(value, comment._id);
+    } else {
+      addComment(value, repliedCommentId, replyOnUserId);
+    }
+    setAffectedComment(null); // Close the form after submit
+  };
+
   return (
     <div className={styles.comment_wrapper}>
       <img
@@ -53,7 +62,7 @@ export const Comment = ({
         {isEditing && (
           <CommentForm
             btnLabel="Modifică"
-            formSubmitHandler={(value) => updateComment(value, comment._id)}
+            formSubmitHandler={(value) => handleFormSubmit(value, true)}
             formCancelHandler={() => setAffectedComment(null)}
             initialText={comment.desc}
           />
@@ -94,9 +103,7 @@ export const Comment = ({
         {isReplying && (
           <CommentForm
             btnLabel="Răspunde"
-            formSubmitHandler={(value) =>
-              addComment(value, repliedCommentId, replyOnUserId)
-            }
+            formSubmitHandler={(value) => handleFormSubmit(value)}
             formCancelHandler={() => setAffectedComment(null)}
           />
         )}
