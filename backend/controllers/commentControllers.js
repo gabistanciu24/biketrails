@@ -43,3 +43,21 @@ export const updateComment = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+    await Comment.deleteMany({ parent: comment._id });
+
+    if (!comment) {
+      const error = new Error("Comment not found");
+      return next(error);
+    }
+
+    return res.json({
+      message: "Comment is deleted successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
