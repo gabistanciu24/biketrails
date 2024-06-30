@@ -15,41 +15,12 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Italic from "@tiptap/extension-italic";
 import { useQuery } from "@tanstack/react-query";
-import { getSinglePost } from "../../services/index/posts";
+import { getAllPosts, getSinglePost } from "../../services/index/posts";
 import { generateHTML } from "@tiptap/react";
 import parse from "html-react-parser";
 import TrailDetailSkeleton from "../components/TrailDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
-
-const postsData = [
-  {
-    _id: "1",
-    image: images.post,
-    title: "Lorem ipsum dolor sit amet.",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "2",
-    image: images.post,
-    title: "Lorem ipsum dolor sit amet.",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "3",
-    image: images.post,
-    title: "Lorem ipsum dolor sit amet.",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "4",
-    image: images.post,
-    title: "Lorem ipsum dolor sit amet.",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-];
-
-const tagsData = ["Enduro", "Singletrack", "Cross-country", "Downhill"];
 
 const TrailDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -65,7 +36,7 @@ const TrailDetailPage = () => {
     queryKey: ["trail", slug],
     onSuccess: (data) => {
       setBreadCrumbsData([
-        { name: "Home", link: "/" },
+        { name: "Acasă", link: "/" },
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
@@ -80,7 +51,7 @@ const TrailDetailPage = () => {
   useEffect(() => {
     if (data) {
       setBreadCrumbsData([
-        { name: "Home", link: "/" },
+        { name: "Acasă", link: "/" },
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
@@ -185,6 +156,11 @@ const TrailDetailPage = () => {
     }
   }, [map, data, drawGpxRoute, isLoaded]);
 
+  const { data: postsData } = useQuery({
+    queryFn: () => getAllPosts(),
+    queryKey: ["posts"],
+  });
+
   return (
     <MainLayout>
       {isLoading ? (
@@ -232,7 +208,7 @@ const TrailDetailPage = () => {
             <h2 className={styles.map_title}>Map:</h2>
             <div id="map" className={styles.map}></div>
             <button className={styles.download_button}>
-              Download Trail <IoMdDownload className={styles.button_icon} />
+              Descarcă traseul <IoMdDownload className={styles.button_icon} />
             </button>
             <CommentsContainer
               comments={data?.comments}
@@ -243,16 +219,14 @@ const TrailDetailPage = () => {
           <div>
             <div className={styles.suggested_shares}>
               <SuggestedTrails
-                header="Latest Trails"
+                header="Ultimele trasee"
                 posts={postsData}
-                tags={tagsData}
+                tags={data?.tags}
               />
               <h2 className={styles.shares}>Share</h2>
               <SocialShareButtons
-                url={encodeURI(
-                  `https://www.linkedin.com/in/gabriel-stanciu-b66482268/`
-                )}
-                title={encodeURIComponent("Stanciu Gabriel LinkedIn")}
+                url={encodeURI(window.location.href)}
+                title={encodeURIComponent(data?.title)}
               />
             </div>
           </div>
