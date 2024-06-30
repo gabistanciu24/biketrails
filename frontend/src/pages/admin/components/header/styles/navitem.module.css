@@ -1,0 +1,17 @@
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  color: #a5a5a5;
+  text-decoration: none;
+  transition: background-color 0.3s ease border-radius 0.3s ease;
+}
+
+.active {
+  font-weight: bold;
+  color: #f5751d;
+  background-color: #14281f;
+  border-radius: 12px;
+}

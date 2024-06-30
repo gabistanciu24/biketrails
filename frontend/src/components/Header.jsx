@@ -62,11 +62,19 @@ const Header = () => {
             >
               <a href="/about">Despre noi</a>
             </li>
-            <li
-            // onClick={navVisibilityHandler}
-            >
-              <a href="/contact">Contact</a>
-            </li>
+
+            {userState?.userInfo?.admin && (
+              <li
+              // onClick={navVisibilityHandler}
+              >
+                <button
+                  onClick={() => navigate("/admin")}
+                  className={styles.login}
+                >
+                  Admin Dashboard
+                </button>
+              </li>
+            )}
             {userState.userInfo ? (
               <>
                 <li>

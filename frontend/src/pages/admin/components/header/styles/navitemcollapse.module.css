@@ -1,0 +1,49 @@
+.collapse {
+  background-color: #edf2f7;
+  min-height: 0;
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid #ccc;
+}
+
+.open {
+  border-bottom: none;
+}
+
+.collapseHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.title {
+  flex: 1;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 1.5rem;
+}
+
+.collapseContent {
+  padding-left: 1rem;
+}
+
+.link {
+  display: block;
+  padding: 0.5rem 0;
+  color: #2d3748;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #4a5568;
+}
