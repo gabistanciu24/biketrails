@@ -31,7 +31,7 @@ const Trails = () => {
       ) : isError ? (
         <ErrorMessage message="Nu s-au putut incarca datele despre trasee." />
       ) : (
-        data.map((post) => (
+        data?.data.map((post) => (
           <TrailCard key={post._id} post={post} className={styles.trail_card} />
         ))
       )}

@@ -220,7 +220,7 @@ const TrailDetailPage = () => {
             <div className={styles.suggested_shares}>
               <SuggestedTrails
                 header="Ultimele trasee"
-                posts={postsData}
+                posts={postsData?.data}
                 tags={data?.tags}
               />
               <h2 className={styles.shares}>Share</h2>
