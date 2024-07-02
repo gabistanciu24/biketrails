@@ -1,0 +1,101 @@
+.pagination_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  background-color: #ffff;
+}
+
+.pagination_container {
+  display: flex;
+  align-items: center;
+}
+
+.button_previous {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #4a5568;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.button_previous:hover {
+  background-color: #f7fafc;
+}
+
+.button_previous:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.previous {
+  cursor: default;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.buttonBase {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.buttonActive {
+  color: #ffffff;
+  background-color: #3b82f6;
+}
+
+.buttonInactive {
+  color: #6b7280;
+  background-color: #ffffff;
+}
+
+.buttonInactive:hover {
+  background-color: #f3f4f6;
+}
+
+.next {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #4a5568;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.next:hover {
+  background-color: #f7fafc;
+}
+
+.next:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 768px) {
+  .pagination_wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

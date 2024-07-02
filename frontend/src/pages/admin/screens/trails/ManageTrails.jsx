@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllPosts } from "../../../../services/index/posts";
 import { useQuery } from "@tanstack/react-query";
 import { images, stables } from "../../../../constants";
 import styles from "./styles/managetrails.module.css";
+import Pagination from "../../../../components/Pagination";
+
+let isFirstRun = true;
 
 const ManageTrails = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -17,6 +20,14 @@ const ManageTrails = () => {
     queryKey: ["trails"],
   });
 
+  useEffect(() => {
+    if (isFirstRun) {
+      isFirstRun = false;
+      return;
+    }
+    refetch();
+  }, [refetch, currentPage]);
+
   const searchKeywordHandler = (e) => {
     const { value } = e.target;
     setSearchKeyword(value);
@@ -24,6 +35,7 @@ const ManageTrails = () => {
 
   const submitSearchKeywordHandler = (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     refetch();
   };
   return (
@@ -134,37 +146,15 @@ const ManageTrails = () => {
                   )}
                 </tbody>
               </table>
-              <div className={styles.svg_container}>
-                <div className={styles.buttons_wrapper}>
-                  <button type="button" className={styles.button_svg}>
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                  <button type="button">1</button>
-                  <button type="button">2</button>
-                  <button type="button">3</button>
-                  <button type="button">4</button>
-                  <button type="button" className={styles.button_svg}>
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      className=""
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
+              {!isLoading && (
+                <Pagination
+                  onPageChange={(page) => setCurrentPage(page)}
+                  currentPage={currentPage}
+                  totalPageCount={JSON.parse(
+                    postsData?.headers?.["x-totalpagecount"]
+                  )}
+                />
+              )}
             </div>
           </div>
         </div>
