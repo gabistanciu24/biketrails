@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { getAllPosts } from "../../../../services/index/posts";
-import { useQuery } from "@tanstack/react-query";
+import { deletePost, getAllPosts } from "../../../../services/index/posts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { images, stables } from "../../../../constants";
 import styles from "./styles/managetrails.module.css";
 import Pagination from "../../../../components/Pagination";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 let isFirstRun = true;
 
 const ManageTrails = () => {
+  const queryClient = useQueryClient();
+  const userState = useSelector((state) => state.user);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const {
     data: postsData,
     isLoading,
@@ -19,6 +25,24 @@ const ManageTrails = () => {
     queryFn: () => getAllPosts(searchKeyword, currentPage),
     queryKey: ["trails"],
   });
+
+  const { mutate: mutateDeletePost, isLoading: isLoadingDeletePost } =
+    useMutation({
+      mutationFn: ({ slug, token }) => {
+        return deletePost({
+          slug,
+          token,
+        });
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(["posts"]);
+        toast.success("Track is deleted.");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+      },
+    });
 
   useEffect(() => {
     if (isFirstRun) {
@@ -37,6 +61,10 @@ const ManageTrails = () => {
     e.preventDefault();
     setCurrentPage(1);
     refetch();
+  };
+
+  const deletePostHandler = ({ slug, token }) => {
+    mutateDeletePost({ slug, token });
   };
   return (
     <div>
@@ -88,6 +116,12 @@ const ManageTrails = () => {
                         Se incarca...
                       </td>
                     </tr>
+                  ) : postsData?.data?.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className={styles.no_trails}>
+                        Nici un traseu nu a fost gasit!
+                      </td>
+                    </tr>
                   ) : (
                     postsData?.data.map((post) => (
                       <tr>
@@ -137,9 +171,22 @@ const ManageTrails = () => {
                           </div>
                         </td>
                         <td className={styles.table_td2}>
-                          <a href="/" className={styles.edit}>
+                          <button
+                            disabled={isLoadingDeletePost}
+                            type="button"
+                            className={styles.button_svg}
+                            onClick={() => {
+                              deletePostHandler({
+                                slug: post?.slug,
+                                token: userState.userInfo.token,
+                              });
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <Link to="/" className={styles.link_edit}>
                             Edit
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))
