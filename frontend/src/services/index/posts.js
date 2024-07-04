@@ -61,3 +61,39 @@ export const updatePost = async ({ updatedData, slug, token }) => {
     throw new Error(error.message);
   }
 };
+
+export const createPost = async ({
+  token,
+  postPicture,
+  title,
+  caption,
+  body,
+}) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("postPicture", postPicture);
+    formData.append("title", title || "New Post");
+    formData.append("caption", caption || "Sample Caption");
+    formData.append(
+      "body",
+      JSON.stringify(body || { type: "doc", content: [] })
+    );
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const { data } = await axios.post(`/api/trails/`, formData, config);
+    console.log("Response data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error creating post:", error);
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message);
+    throw new Error(error.message);
+  }
+};

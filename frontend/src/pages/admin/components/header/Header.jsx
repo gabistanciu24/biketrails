@@ -7,39 +7,46 @@ import { MdDashboard } from "react-icons/md";
 import NavItem from "./NavItem";
 import NavItemCollapse from "./NavItemCollapse";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { Link } from "react-router-dom";
-
-const MENU_ITEMS = [
-  {
-    title: "Dashboard",
-    link: "/admin",
-    icon: <AiFillDashboard className={styles.items_icon} />,
-    name: "dashboard",
-    type: "link",
-  },
-  {
-    title: "Comentarii",
-    link: "/admin/comments",
-    icon: <FaComments className={styles.items_icon} />,
-    name: "comments",
-    type: "link",
-  },
-  {
-    title: "Trasee",
-    content: [
-      { title: "Nou", link: "/admin/trails/new" },
-      { title: "Manage", link: "/admin/trails/manage" },
-    ],
-    icon: <MdDashboard className={styles.items_icon} />,
-    name: "trails",
-    type: "collapse",
-  },
-];
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { createPost } from "../../../../services/index/posts";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const userState = useSelector((state) => state.user);
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [activeNavName, setActiveNavName] = useState("dashboard");
   const windowSize = useWindowSize();
+
+  const { mutate: mutateCreatePost, isLoading: isLoadingCreatePost } =
+    useMutation({
+      mutationFn: ({ token }) => {
+        const postPicture = null;
+        const title = "New Trail";
+        const caption = "This is a new trail.";
+        const body = { type: "doc", content: [] };
+
+        return createPost({
+          token,
+          postPicture,
+          title,
+          caption,
+          body,
+        });
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(["posts"]);
+        toast.success("Traseu creat, modifica acum!");
+        navigate(`/admin/trails/manage/edit/${data.slug}`);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+      },
+    });
 
   const toggleMenuHandler = () => {
     setIsMenuActive((prevState) => !prevState);
@@ -53,9 +60,13 @@ const Header = () => {
     }
   }, [windowSize.width]);
 
+  const handleCreateNewPost = () => {
+    mutateCreatePost({ token: userState.userInfo.token });
+  };
+
   return (
     <header className={styles.header}>
-      {/*logo*/}
+      {/* logo */}
       <Link to="/">
         <img src={images.Logo} alt="logo" className={styles.logo1} />
       </Link>
@@ -86,29 +97,36 @@ const Header = () => {
             <h4 className={styles.main_menu}>MENIU PRINCIPAL</h4>
             {/* menu items */}
             <div className={styles.menu_items}>
-              {MENU_ITEMS.map((item) =>
-                item.type === "link" ? (
-                  <NavItem
-                    key={item.title}
-                    title={item.title}
-                    link={item.link}
-                    icon={item.icon}
-                    name={item.name}
-                    activeNavName={activeNavName}
-                    setActiveNavName={setActiveNavName}
-                  />
-                ) : (
-                  <NavItemCollapse
-                    key={item.title}
-                    title={item.title}
-                    content={item.content}
-                    icon={item.icon}
-                    name={item.name}
-                    activeNavName={activeNavName}
-                    setActiveNavName={setActiveNavName}
-                  />
-                )
-              )}
+              <NavItem
+                title="Dashboard"
+                link="/admin"
+                icon={<AiFillDashboard className={styles.icon} />}
+                name="dashboard"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+              />
+
+              <NavItem
+                title="Comments"
+                link="/admin/comments"
+                icon={<FaComments className={styles.icon} />}
+                name="comments"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+              />
+
+              <NavItemCollapse
+                title="Trails"
+                icon={<MdDashboard className={styles.icon} />}
+                name="posts"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+                content={[
+                  { title: "Manage trails", link: "/admin/trails/manage" },
+                ]}
+                handleCreateNewPost={handleCreateNewPost}
+                isLoadingCreatePost={isLoadingCreatePost}
+              />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ const PostSchema = new Schema(
     body: { type: Object, required: true },
     photo: { type: String, required: false },
     photoGallery: { type: [String], default: [] },
-    gpxTrail: { type: String, required: true },
+    gpxTrail: { type: String, required: false },
     user: { type: Schema.Types.ObjectId, ref: "User" },
     tags: { type: [String] },
     categories: [{ type: Schema.Types.ObjectId, ref: "PostCategories" }],

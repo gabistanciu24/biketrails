@@ -4,11 +4,13 @@ import styles from "./styles/navitemcollapse.module.css"; // Import your CSS mod
 
 const NavItemCollapse = ({
   title,
-  content,
+  content = [], // Provide a default value here
   icon,
   name,
   activeNavName,
   setActiveNavName,
+  handleCreateNewPost, // Add this prop to handle the button click
+  isLoadingCreatePost, // Add this prop to handle loading state
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,11 +32,19 @@ const NavItemCollapse = ({
       </div>
       {isOpen && (
         <div className={styles.collapseContent}>
-          {content.map((item, index) => (
-            <Link key={index} to={item.link} className={styles.link}>
-              {item.title}
-            </Link>
-          ))}
+          {Array.isArray(content) &&
+            content.map((item, index) => (
+              <Link key={index} to={item.link} className={styles.link}>
+                {item.title}
+              </Link>
+            ))}
+          <button
+            disabled={isLoadingCreatePost}
+            className={styles.createpost_button}
+            onClick={handleCreateNewPost}
+          >
+            Adauga traseu nou
+          </button>
         </div>
       )}
     </div>

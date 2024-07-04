@@ -9,7 +9,6 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import Admin from "./pages/admin/screens/Admin.jsx";
 import Comments from "./pages/admin/screens/comments/Comments.jsx";
-import NewTrail from "./pages/admin/screens/trails/NewTrail.jsx";
 import ManageTrails from "./pages/admin/screens/trails/ManageTrails.jsx";
 import EditTrail from "./pages/admin/screens/trails/EditTrail.jsx";
 
@@ -25,7 +24,6 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comments />} />
-          <Route path="trails/new" element={<NewTrail />} />
           <Route path="trails/manage" element={<ManageTrails />} />
           <Route path="trails/manage/edit/:slug" element={<EditTrail />} />
         </Route>

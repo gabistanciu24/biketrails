@@ -50,8 +50,7 @@
 }
 
 .post_description {
-  margin-top: 4rem;
-  color: #ccdcdd;
+  width: 100%;
 }
 
 .post_description p {

@@ -22,7 +22,7 @@ const TrailDetailPage = () => {
   const { slug } = useParams();
   const userState = useSelector((state) => state.user);
   const [breadCrumbsData, setBreadCrumbsData] = useState([]);
-  const [body, setBody] = useState(null);
+  const [, setBody] = useState(null);
   const [map, setMap] = useState(null);
   const [currentRoute, setCurrentRoute] = useState(null);
 
