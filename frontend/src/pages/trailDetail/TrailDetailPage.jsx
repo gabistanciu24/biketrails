@@ -9,18 +9,12 @@ import axios from "axios";
 import { IoMdDownload } from "react-icons/io";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/SocialShareButtons";
-import Bold from "@tiptap/extension-bold";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import Italic from "@tiptap/extension-italic";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts, getSinglePost } from "../../services/index/posts";
-import { generateHTML } from "@tiptap/react";
-import parse from "html-react-parser";
 import TrailDetailSkeleton from "../components/TrailDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
+import { parseJsonToHtml } from "../../utils/parseJsonToHtml";
 
 const TrailDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -40,11 +34,7 @@ const TrailDetailPage = () => {
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
-      setBody(
-        parse(
-          generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
-        )
-      );
+      setBody(parseJsonToHtml(data?.body));
     },
   });
 
@@ -55,9 +45,7 @@ const TrailDetailPage = () => {
         { name: "Trail", link: "/trail" },
         { name: data.title, link: `/trails/${slug}` },
       ]);
-      parse(
-        generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
-      );
+      setBody(parseJsonToHtml(data?.body));
     }
   }, [data, slug]);
 

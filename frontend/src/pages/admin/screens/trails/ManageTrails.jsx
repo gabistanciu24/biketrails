@@ -184,7 +184,10 @@ const ManageTrails = () => {
                           >
                             Delete
                           </button>
-                          <Link to="/" className={styles.link_edit}>
+                          <Link
+                            to={`/admin/trails/manage/edit/${post?.slug}`}
+                            className={styles.button_svg}
+                          >
                             Edit
                           </Link>
                         </td>

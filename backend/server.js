@@ -11,11 +11,13 @@ import { fileURLToPath } from "url";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 connectDB();
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Create __dirname equivalent for ESM
 const __filename = fileURLToPath(import.meta.url);
