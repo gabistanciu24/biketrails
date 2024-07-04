@@ -1,23 +1,21 @@
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
 import { getSinglePost, updatePost } from "../../../../services/index/posts";
-import { Link, useParams } from "react-router-dom";
-import TrailDetailSkeleton from "../../../components/TrailDetailSkeleton";
-import ErrorMessage from "../../../../components/ErrorMessage";
-import { parseJsonToHtml } from "../../../../utils/parseJsonToHtml";
-import { stables } from "../../../../constants";
-import { HiOutlineCamera } from "react-icons/hi";
+import { useParams } from "react-router-dom";
+import Editor from "../../../../components/editor/Editor";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import styles from "./styles/edittrail.module.css";
+import { stables } from "../../../../constants";
 
-const EditPost = () => {
+const EditTrail = () => {
   const { slug } = useParams();
   const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
-  const [initialPhoto, setInitialPhoto] = useState(null);
-  const [photo, setphoto] = useState(null);
   const [body, setBody] = useState(null);
+  const [initialPhoto, setInitialPhoto] = useState(null);
+  const [photo, setPhoto] = useState(null);
+
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ["trail", slug],
@@ -34,7 +32,7 @@ const EditPost = () => {
         token,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["trail", slug]);
       toast.success("Trail updated");
     },
@@ -47,35 +45,28 @@ const EditPost = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       setInitialPhoto(data?.photo);
-      setBody(parseJsonToHtml(data?.body));
+      setBody(data?.body || { type: "doc", content: [] });
     }
   }, [data, isError, isLoading]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setphoto(file);
+    setPhoto(file);
   };
 
   const handleUpdatePost = async () => {
     let updatedData = new FormData();
 
-    if (!initialPhoto && photo) {
+    if (photo) {
       updatedData.append("postPicture", photo);
-    } else if (initialPhoto && !photo) {
-      const urlToObject = async (url) => {
-        let response = await fetch(url);
-        let blob = await response.blob();
-        const file = new File([blob], initialPhoto, { type: blob.type });
-        return file;
-      };
-      const picture = await urlToObject(
-        stables.UPLOAD_FOLDER_BASE_URL + data?.photo
-      );
-      console.log(picture);
+    } else if (initialPhoto) {
+      const picture = await fetch(stables.UPLOAD_FOLDER_BASE_URL + initialPhoto)
+        .then((response) => response.blob())
+        .then((blob) => new File([blob], initialPhoto, { type: blob.type }));
       updatedData.append("postPicture", picture);
     }
 
-    updatedData.append("document", JSON.stringify({}));
+    updatedData.append("body", JSON.stringify(body));
 
     mutateUpdatePostDetail({
       updatedData,
@@ -87,17 +78,16 @@ const EditPost = () => {
   const handleDeleteImage = () => {
     if (window.confirm("Vrei sa stergi poza acestui traseu?")) {
       setInitialPhoto(null);
-      setphoto(null);
+      setPhoto(null);
     }
   };
 
   return (
     <div>
-      {" "}
       {isLoading ? (
-        <TrailDetailSkeleton />
+        <div>Loading...</div>
       ) : isError ? (
-        <ErrorMessage message="Nu s-au putut incarca detaliile traseului." />
+        <div>Error loading trail details</div>
       ) : (
         <section className={styles.edit_section}>
           <article>
@@ -116,7 +106,7 @@ const EditPost = () => {
                 />
               ) : (
                 <div className={styles.picture_placeholder}>
-                  <HiOutlineCamera className={styles.placeholder_icon} />
+                  {/* Placeholder content */}
                 </div>
               )}
             </label>
@@ -133,19 +123,16 @@ const EditPost = () => {
             >
               Delete Image
             </button>
-            <div className={styles.categories_wrap}>
-              {" "}
-              {data?.categories.map((category) => (
-                <Link
-                  to={`/trail?category=${category.name}`}
-                  className={styles.category_link}
-                >
-                  {category.name}
-                </Link>
-              ))}
-            </div>
             <h1 className={styles.title}>{data?.title}</h1>
-            <div className={styles.body}>{body}</div>
+            <div className={styles.body}>
+              <Editor
+                content={data.body}
+                editable={true}
+                onDataChange={(newData) => {
+                  setBody(newData);
+                }}
+              />
+            </div>
             <button
               disabled={isLoadingUpdatePostDetail}
               type="button"
@@ -161,4 +148,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default EditTrail;

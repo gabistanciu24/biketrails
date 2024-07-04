@@ -15,6 +15,7 @@ import TrailDetailSkeleton from "../components/TrailDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
 import { parseJsonToHtml } from "../../utils/parseJsonToHtml";
+import Editor from "../../components/editor/Editor";
 
 const TrailDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -75,13 +76,11 @@ const TrailDetailPage = () => {
   }, [map, data]);
 
   useEffect(() => {
-    // Initialize map when component mounts
     initializeMap();
   }, [initializeMap]);
 
   const drawGpxRoute = useCallback(
     (gpxContent) => {
-      // Remove previous route if exists
       if (currentRoute) {
         currentRoute.setMap(null);
       }
@@ -111,7 +110,6 @@ const TrailDetailPage = () => {
       route.setMap(map);
       setCurrentRoute(route);
 
-      // Zoom to the newly drawn route
       const bounds = new window.google.maps.LatLngBounds();
       coordinates.forEach((coord) => bounds.extend(coord));
       map.fitBounds(bounds);
@@ -181,7 +179,9 @@ const TrailDetailPage = () => {
             </div>
             <h1 className={styles.post_title}>{data?.title}</h1>
             <div className={styles.post_description}>
-              <p>{body}</p>
+              {!isLoading && !isError && (
+                <Editor content={data?.body} editable={false} />
+              )}
             </div>
             <div className={styles.photos_container}>
               {data?.photoGallery.map((photo, index) => (

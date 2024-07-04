@@ -1,0 +1,56 @@
+.editorMenuBar {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  position: sticky;
+  top: 0.75rem;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 10;
+  display: flex;
+  gap: 0.125rem;
+  flex-wrap: wrap;
+}
+
+.editorBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #64748b;
+  border-radius: 0.5rem;
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.editorBtn:disabled {
+  cursor: not-allowed;
+}
+
+.activeEditorBtn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.fontBlack {
+  font-weight: 900;
+}
+
+.fontExtrabold {
+  font-weight: 800;
+}
+
+.fontSemibold {
+  font-weight: 600;
+}
+
+.fontMedium {
+  font-weight: 500;
+}
+
+.fontNormal {
+  font-weight: 400;
+}

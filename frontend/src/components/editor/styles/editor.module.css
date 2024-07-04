@@ -1,0 +1,39 @@
+.editorContent {
+  font-family: serif;
+  color: #374151;
+  line-height: 1.75;
+  word-wrap: break-word;
+  font-variant-ligatures: common-ligatures;
+  margin-top: 1.75rem;
+  max-width: none;
+}
+
+.editorContent:focus {
+  outline: none;
+}
+
+.editorContent pre {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+
+.editorContent.dark {
+  color: #d1d5db;
+}
+
+@media (min-width: 640px) {
+  .editorContent {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+}
+
+.editorContent {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.editor_wrapper {
+  width: 100%;
+  position: relative;
+}

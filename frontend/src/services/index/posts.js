@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAllPosts = async (searchKeyword = "", page = 1, limit = 1) => {
+export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10) => {
   try {
     const { data, headers } = await axios.get(
       `/api/trails?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`
@@ -45,6 +45,7 @@ export const updatePost = async ({ updatedData, slug, token }) => {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     };
     const { data } = await axios.put(
@@ -52,6 +53,7 @@ export const updatePost = async ({ updatedData, slug, token }) => {
       updatedData,
       config
     );
+    console.log("Response data:", data);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
